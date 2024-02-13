@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost/vue3/laravel/api",
+  baseURL: process.env.VUE_APP_APIURL,
   headers: {
     "Content-type": "application/json"
   }
