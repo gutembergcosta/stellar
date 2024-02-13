@@ -5,6 +5,7 @@ import TopoDefault from '@/blocos/TopoDefault.vue';
 import FooterPage from '@/blocos/FooterPage.vue';
 import SideBar from '@/blocos/SideBar.vue';
 import TituloPage from '@/blocos/TituloPage.vue';
+import UploadGaleria from '@/blocos/UploadGaleria.vue';
 
 
 
@@ -17,6 +18,7 @@ app.component('TopoDefault', TopoDefault);
 app.component('FooterPage', FooterPage);
 app.component('SideBar', SideBar);
 app.component('TituloPage', TituloPage);
+app.component('UploadGaleria', UploadGaleria);
 
 
 app.use(router);
