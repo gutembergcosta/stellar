@@ -23,12 +23,13 @@
 					</label>
 				</div>
 
-				<div v-if="message" class="alert alert-light" role="alert">
-					<ul>
-						<li v-for="(ms, i) in message.split('\n')" :key="i">
-							{{ ms }}
-						</li>
-					</ul>
+				<div v-if="errorMessages">
+					<div  v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show" role="alert" >
+						{{ item.texto }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" @click=remove(item) >
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
 				</div>
 
 				<div v-if="progressInfos">
@@ -71,6 +72,8 @@
 <script>
 import UploadService from "@/services/UploadFilesService";
 
+import { uniqid } from '@/helpers/uniqid.js';
+
 export default {
   name: "upload-files",
   data() {
@@ -78,7 +81,7 @@ export default {
 			selectedFiles: undefined,
       progressInfos: [],
       message: "",
-
+      errorMessages: [],
       fileInfos: [],
     };
   },
@@ -101,24 +104,20 @@ export default {
       UploadService.upload(file, (event) => {
         this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);
       })
-        .then((response) => {
-          let prevMessage = this.message ? this.message + "\n" : "";
-          this.message = prevMessage + response.data.message;
-
-          this.listArquivos();
-          this.clearFile();
-					
-        })
-				/*
-        .then((files) => {
-          this.fileInfos = files.data;
-        });
+			.catch((error) => {
 				
-        .catch(() => {
-          this.progressInfos[idx].percentage = 0;
-          this.message = "Could not upload the file:" + file.name;
-        });
-				*/
+				//let prevMessage = this.message ? this.message + "\n" : "";
+				let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
+
+				let id = uniqid()
+				let erro = { 
+					id: id, 
+					texto: errorMsg 
+				};
+
+				this.errorMessages.push(erro);
+				
+			})
     },
 		listArquivos(){
 			UploadService.list('exemplo','exemplo').then((response) => {
@@ -128,8 +127,16 @@ export default {
 		clearFile() {
 			this.$refs.fileInput.value = null;
 			this.progressInfos = [];
-		}
-
+		remove(erro){
+			let index = this.getIndex(erro);
+      this.errorMessages.splice(index, 1);
+		},
+		getIndex(erro) {
+      //..recebe o todo como parâmetro, procura ele e retorna o seu index
+      let index = this.errorMessages.findIndex( item => item.id === erro.id );
+			console.log(index); 
+      return index;      
+    },
 		
   },
 	mounted() {
