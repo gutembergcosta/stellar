@@ -6,8 +6,6 @@
 			<p class="card-description">Instrução adicional </p>
 			
 			<div>
-				
-
 				<div class="mb-3">
 					<label class="btn-upload">
 						<input 
@@ -32,7 +30,7 @@
 					</div>
 				</div>
 
-				<div v-if="progressInfos">
+				<div class="mb-3" v-if="progressInfos">
 					<div class="mb-2"
 						v-for="(progressInfo, index) in progressInfos"
 						:key="index"
@@ -82,6 +80,9 @@ export default {
       progressInfos: [],
       message: "",
       errorMessages: [],
+      arquivoNome: "",
+      qteImages: 0,
+      uploaded: 0,
       fileInfos: [],
     };
   },
@@ -93,17 +94,28 @@ export default {
     },
 		uploadFiles() {
       this.message = "";
+			this.qteImages = this.selectedFiles.length;
 
-      for (let i = 0; i < this.selectedFiles.length; i++) {
+      for (let i = 0; i < this.qteImages; i++) {
         this.upload(i, this.selectedFiles[i]);
       }
     },
 		upload(idx, file) {
+			this.arquivoNome = "";
       this.progressInfos[idx] = { percentage: 0, fileName: file.name };
+			this.arquivoNome = file.name;
+			
 
       UploadService.upload(file, (event) => {
-        this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);
+        this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);				
       })
+			.then(() => {
+				let uploaded = ++this.uploaded
+				if(uploaded == this.qteImages){
+					this.listArquivos();
+					this.clearFile();
+				}
+			})
 			.catch((error) => {
 				
 				//let prevMessage = this.message ? this.message + "\n" : "";
@@ -118,15 +130,22 @@ export default {
 				this.errorMessages.push(erro);
 				
 			})
+			.finally(()=>{
+				this.listArquivos();
+					this.clearFile();
+			})
     },
 		listArquivos(){
 			UploadService.list('exemplo','exemplo').then((response) => {
-					this.fileInfos = response.data.data;
-				});
+				this.fileInfos = response.data.data;
+			});
 		},
 		clearFile() {
 			this.$refs.fileInput.value = null;
 			this.progressInfos = [];
+			this.selectedFiles = undefined;
+			this.uploaded = 0;
+		},
 		remove(erro){
 			let index = this.getIndex(erro);
       this.errorMessages.splice(index, 1);
@@ -138,12 +157,22 @@ export default {
       return index;      
     },
 		
+		
+
+		
+		
   },
 	mounted() {
     UploadService.list('exemplo','exemplo').then((response) => {
       this.fileInfos = response.data.data;
     });
-  }
+  },
+
+	// SETUP ====================
+
+
+
+
 };
 </script>
 
@@ -159,6 +188,11 @@ export default {
   cursor: pointer;
   background-color:rgb(51, 122, 183);
   color: white;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out; /* Adjust duration and timing function as needed */
 }
 
 </style>
