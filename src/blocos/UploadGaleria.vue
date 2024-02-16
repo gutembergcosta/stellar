@@ -52,14 +52,24 @@
 
 				<div class="card">
 					<div class="card-header">List of Files</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item"
-							v-for="(file, index) in fileInfos"
+					<div class="row " :options="optionsFancyBox">
+						<div class="col-md-3 card-img mb-3"
+							v-for="(item, index) in fileInfos"
 							:key="index"
 						>
-							<a :href="file.url">{{ file.arquivo }}</a>
-						</li>
-					</ul>
+							<div>
+								<a :href="item.url_max" data-fancybox="gallery" >
+									<img :src="item.url_square" alt="" class="w-100">
+								</a>
+							</div>
+							<div class="d-flex justify-content-center">
+								<button class="btn text-danger" @click.prevent=deletarImg(item)>
+									<i class="fa-solid fa-circle-xmark"></i>
+								</button>
+							</div>
+							
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -68,9 +78,16 @@
 </template>
   
 <script>
-import UploadService from "@/services/UploadFilesService";
 
 import { uniqid } from '@/helpers/uniqid.js';
+
+import UploadService from "@/services/UploadFilesService";
+
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
+
+
 
 export default {
   name: "upload-files",
@@ -84,6 +101,15 @@ export default {
       qteImages: 0,
       uploaded: 0,
       fileInfos: [],
+			uploadFolder: process.env.VUE_APP_UPLOADS,
+			optionsFancyBox: {
+				Carousel: {
+					infinite: true,
+				},
+				Thumbs: {
+					type: "classic",
+				},
+			},
     };
   },
   methods: {
@@ -103,8 +129,7 @@ export default {
 		upload(idx, file) {
 			this.arquivoNome = "";
       this.progressInfos[idx] = { percentage: 0, fileName: file.name };
-			this.arquivoNome = file.name;
-			
+			this.arquivoNome = file.name;		
 
       UploadService.upload(file, (event) => {
         this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);				
@@ -150,27 +175,29 @@ export default {
 			let index = this.getIndex(erro);
       this.errorMessages.splice(index, 1);
 		},
+		deletarImg(item){
+			let id = item.id;
+			alert(id);
+		},
 		getIndex(erro) {
       //..recebe o todo como parâmetro, procura ele e retorna o seu index
       let index = this.errorMessages.findIndex( item => item.id === erro.id );
 			console.log(index); 
       return index;      
     },
-		
-		
-
-		
+		initFancybox() {
+			Fancybox.bind('[data-fancybox]', this.optionsFancyBox);   
+    },
 		
   },
 	mounted() {
     UploadService.list('exemplo','exemplo').then((response) => {
       this.fileInfos = response.data.data;
     });
+		this.initFancybox();
+		
   },
-
-	// SETUP ====================
-
-
+	
 
 
 };
