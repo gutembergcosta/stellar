@@ -3,11 +3,11 @@
 		<div class="card-body">
 			<h4 class="card-title">Upload Galeria</h4>
 			<p class="card-description">Instrução adicional </p>
-
+			<p>Data from Child: {{ receivedData }}</p>
 			<div>
 				<div class="mb-3">
 					<label class="btn-upload">
-						<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png"
+						<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf"
 							:disabled="selectedFiles" hidden />
 						<div class="btn-up">Upload</div>
 					</label>
@@ -17,7 +17,7 @@
 					<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show"
 						role="alert">
 						{{ item.texto }}
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close" @click=remove(item)>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" @click=removeErrorMsg(item)>
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -35,25 +35,13 @@
 						</div>
 					</div>
 				</div>
+				
 
-				<div class="card">
-					<div class="card-header">List of Files</div>
-					<div class="row " :options="optionsFancyBox">
-						<div class="col-md-3 card-img mb-3" v-for="(item, index) in fileInfos" :key="index">
-							<div>
-								<a :href="item.url_max" data-fancybox="gallery">
-									<img :src="item.url_square" alt="" class="w-100">
-								</a>
-							</div>
-							<div class="d-flex justify-content-center">
-								<button class="btn text-danger" @click.prevent=deletarImg(item)>
-									<i class="fa-solid fa-circle-xmark"></i>
-								</button>
-							</div>
-
-						</div>
-					</div>
-				</div>
+				<GaleriaUploads 
+					@mensagem-para-pai="receberMensagemDoFilho"
+					:messagez="parentMessage" 
+					:fileInfos="fileInfos"
+				/>
 			</div>
 		</div>
 	</div>
@@ -64,8 +52,8 @@
 import { uniqid } from '@/helpers/uniqid.js';
 
 import UploadService from "@/services/UploadFilesService";
+import GaleriaUploads from "@/blocos/GaleriaUploads.vue";
 
-import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 
@@ -73,11 +61,16 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 export default {
 	name: "upload-files",
+	components: {
+		GaleriaUploads 
+	},
 	data() {
 		return {
 			selectedFiles: undefined,
 			progressInfos: [],
+			parentMessage: 'Hello from parent!',
 			message: "",
+			mensagemRecebida: '',
 			errorMessages: [],
 			arquivoNome: "",
 			qteImages: 0,
@@ -108,6 +101,29 @@ export default {
 				this.upload(i, this.selectedFiles[i]);
 			}
 		},
+		removeErrorMsg(msg) {
+			let index = this.getErrorIndex(msg);
+			this.errorMessages.splice(index, 1);
+		},
+		getErrorIndex(msg) {
+			//..recebe o todo como parâmetro, procura ele e retorna o seu index
+			let index = this.errorMessages.findIndex( item => item.id === msg.id );
+			return index;      
+		},
+		receberMensagemDoFilho(mensagem) {
+			console.log('mensagem')
+			console.log(mensagem)
+			this.removeArquivo(mensagem)
+		},
+		removeArquivo(arquivo) {
+			let index = this.getArquivoIndex(arquivo);
+			this.fileInfos.splice(index, 1);
+		},
+		getArquivoIndex(arquivo) {
+			//..recebe o todo como parâmetro, procura ele e retorna o seu index
+			let index = this.fileInfos.findIndex( item => item.id === arquivo.id );
+			return index;      
+		},
 		upload(idx, file) {
 			this.arquivoNome = "";
 			this.progressInfos[idx] = { percentage: 0, fileName: file.name };
@@ -116,31 +132,31 @@ export default {
 			UploadService.upload(file, (event) => {
 				this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);
 			})
-				.then(() => {
-					let uploaded = ++this.uploaded
-					if (uploaded == this.qteImages) {
-						this.listArquivos();
-						this.clearFile();
-					}
-				})
-				.catch((error) => {
-
-					//let prevMessage = this.message ? this.message + "\n" : "";
-					let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
-
-					let id = uniqid()
-					let erro = {
-						id: id,
-						texto: errorMsg
-					};
-
-					this.errorMessages.push(erro);
-
-				})
-				.finally(() => {
+			.then(() => {
+				let uploaded = ++this.uploaded
+				if (uploaded == this.qteImages) {
 					this.listArquivos();
 					this.clearFile();
-				})
+				}
+			})
+			.catch((error) => {
+
+				//let prevMessage = this.message ? this.message + "\n" : "";
+				let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
+
+				let id = uniqid()
+				let erro = {
+					id: id,
+					texto: errorMsg
+				};
+
+				this.errorMessages.push(erro);
+
+			})
+			.finally(() => {
+				this.listArquivos();
+				this.clearFile();
+			})
 		},
 		listArquivos() {
 			UploadService.list('exemplo', 'exemplo').then((response) => {
@@ -153,34 +169,12 @@ export default {
 			this.selectedFiles = undefined;
 			this.uploaded = 0;
 		},
-		remove(erro) {
-			let index = this.getIndex(erro);
-			this.errorMessages.splice(index, 1);
-		},
-		deletarImg(item) {
-			let id = item.id;
-			alert(id);
-		},
-		getIndex(erro) {
-			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = this.errorMessages.findIndex(item => item.id === erro.id);
-			console.log(index);
-			return index;
-		},
-		initFancybox() {
-			Fancybox.bind('[data-fancybox]', this.optionsFancyBox);
-		},
-
 	},
 	mounted() {
 		UploadService.list('exemplo', 'exemplo').then((response) => {
 			this.fileInfos = response.data.data;
 		});
-		this.initFancybox();
-
 	},
-
-
 
 };
 </script>

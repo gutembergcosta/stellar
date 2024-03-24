@@ -4,6 +4,9 @@ class UploadFilesService {
   upload(file, onUploadProgress) {
     let formData = new FormData();
 
+    console.log('typeof');
+    console.log(typeof file);
+
     formData.append("arquivo", file);
     formData.append("tipo", 'exemplo');
     formData.append("ref", 'exemplo');
