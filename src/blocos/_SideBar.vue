@@ -1,7 +1,27 @@
 <template>
-	<div id="mySidebar" class="sidebar">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-  <VaSidebar width="100%" color="#181824">
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
+		<ul class="nav">
+			<li class="nav-item nav-profile">
+				<a href="#" class="nav-link">
+					<div class="profile-image">
+						<VaAvatar src="assets/painel/images/faces/face8.jpg" class="mr-6" />
+						<div class="dot-indicator bg-success"></div>
+					</div>
+					<div class="text-wrapper">
+						<p class="profile-name">Fulano de tal</p>
+						<p class="designation">Administrator</p>
+					</div>
+						<div class="icon-container">
+						<i class="icon-bubbles"></i>
+						<div class="dot-indicator bg-danger"></div>
+					</div>
+				</a>
+			</li>
+		</ul>
+		<!---sidbar-->
+
+		<div>
+    <VaSidebar width="100%" color="#181824">
       <VaSidebarItem>
         <VaSidebarItemContent>
           <VaIcon name="dashboard" />
@@ -53,7 +73,10 @@
         </VaSidebarItemContent>
       </VaSidebarItem>
     </VaSidebar>
-</div>
+  </div>
+
+		<!---/sidbar-->
+	</nav>
 </template>
 
 <script setup>
