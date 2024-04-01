@@ -1,6 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import { createVuestic } from "vuestic-ui";
+
+
+
+
+import { VaCard } from "vuestic-ui";
+
 import TopoDefault from '@/blocos/TopoDefault.vue';
 import FooterPage from '@/blocos/FooterPage.vue';
 import SideBar from '@/blocos/SideBar.vue';
@@ -14,6 +21,8 @@ createApp(App).use(router).mount('#app')
 const app = createApp(App);
 
 // Register the component globally
+app.component('VaCard', VaCard);
+
 app.component('TopoDefault', TopoDefault);
 app.component('FooterPage', FooterPage);
 app.component('SideBar', SideBar);
@@ -22,6 +31,7 @@ app.component('UploadGaleria', UploadGaleria);
 
 
 app.use(router);
+app.use(createVuestic());
 
 
 

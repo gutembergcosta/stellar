@@ -5,30 +5,128 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/painel/css/sizes.css">
+    <link rel="stylesheet" href="assets/painel/css/bs4-utilities.css">
+    <link rel="stylesheet" href="assets/painel/css/bs4-grid.css">
+    
+    
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <title>Painel05</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="assets/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="assets/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="assets/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="assets/chartist/chartist.min.css">
-    <link rel="stylesheet" href="assets/painel/css/style.css">
-    <link rel="stylesheet" href="assets/calendario/fullcalendar.css">
-    <link rel="stylesheet" href="assets/select2/select2.min.css">
-    <link rel="stylesheet" href="assets/select2-bootstrap-theme/select2-bootstrap.min.css">
-    <link rel="stylesheet" href="assets/painel/css/style.css">
+    <style>
+      body {
+        font-family: "Lato", sans-serif;
+        background: #ecf0f5;
+        margin: 0;
+      }
+
+      .pagina{
+        display: flex;
+      }
+      
+      .sidebar {
+        height: 100%;
+        
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+      }
+      
+      .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+      
+      .sidebar a:hover {
+        color: #f1f1f1;
+      }
+      
+      .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+      
+      .openbtn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+      }
+      
+      .openbtn:hover {
+        background-color: #444;
+      }
+      
+      #main {
+        transition: margin-left .5s;
+      }
+
+      .area{
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .lateral{
+        width: 200px;
+
+      }
+
+      .principal{
+        width: calc(100% -230);
+      }
+      
+      @media screen and (min-width: 901px) {
+        .sidebar {
+          width: 250px;
+        }
+        #main{
+          margin-left: 250px;
+        }
+      }
+
+      @media screen and (max-width: 900px) {
+        .sidebar {
+          width: 0;
+        }
+      }
+      </style>
 
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+<script>
+  function openNav() {
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+  
+  function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+  }
 
+  function toggleSidebar(){
+
+  }
+  </script>
     
     
   </body>
