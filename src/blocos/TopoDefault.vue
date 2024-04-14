@@ -6,12 +6,12 @@
 				<button id="btn-action-sidebar" class="openbtn" action="close" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>  
 			</div>
 		</div>
-		<div class="">
+		<div class="avatar-area">
 			<div class="d-flex justify-content-end">
 				<VaButtonDropdown preset="secondary" class="  pd-0 btn-config">
 					<template #label>
 						<VaAvatar src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo" />
-						<span>Nome do usuário</span>
+						<span class="avatar-usernome">Nome do usuário</span>
 					</template>
 					<ul>
 						<li><a href="">asdfa</a></li>
@@ -43,4 +43,8 @@
 		height: 50px;
 	}
 	.avatar-topo{width: 35px; height: 35px;}
+	.avatar-usernome{
+		color: black;
+		font-weight: 400;
+	}
 </style>

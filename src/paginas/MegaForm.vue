@@ -2,7 +2,7 @@
 	<SideBar/>
   <div class="main" id="main">
     <TopoDefault/>
-    <div class="container">
+    <div class="container area-admin">
       <TituloPage/>
       <div class="row">
         <div class="col-md-9">

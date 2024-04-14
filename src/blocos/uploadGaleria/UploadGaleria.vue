@@ -32,13 +32,7 @@
 		:fileInfos="fileInfos"
 		/>
 		</div>
-	</CardBase>
-	<VaCard>
-		<VaCardTitle>Upload Galeria</VaCardTitle>
-		<VaCardContent>
-				
-		</VaCardContent>
-	</VaCard>	
+	</CardBase>	
 </template>
   
 <script>
