@@ -4,8 +4,6 @@ import router from './router';
 import { createVuestic } from "vuestic-ui";
 import "vuestic-ui/css";
 
-
-
 import { VaCard } from "vuestic-ui";
 
 import TopoDefault from '@/blocos/TopoDefault.vue';
