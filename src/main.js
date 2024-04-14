@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import { createVuestic } from "vuestic-ui";
-
+import "vuestic-ui/css";
 
 
 
@@ -12,7 +12,8 @@ import TopoDefault from '@/blocos/TopoDefault.vue';
 import FooterPage from '@/blocos/FooterPage.vue';
 import SideBar from '@/blocos/SideBar.vue';
 import TituloPage from '@/blocos/TituloPage.vue';
-import UploadGaleria from '@/blocos/UploadGaleria.vue';
+import UploadUnico from '@/blocos/uploadArquivo/UploadUnico.vue';
+import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
 
 
 
@@ -28,6 +29,7 @@ app.component('FooterPage', FooterPage);
 app.component('SideBar', SideBar);
 app.component('TituloPage', TituloPage);
 app.component('UploadGaleria', UploadGaleria);
+app.component('UploadUnico', UploadUnico);
 
 
 app.use(router);

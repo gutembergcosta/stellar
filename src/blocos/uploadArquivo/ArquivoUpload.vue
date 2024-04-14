@@ -1,19 +1,17 @@
 <template>
 	<div class="card">
-		<div class="card-header">List of Files</div>
 		<div class="row " :options="optionsFancyBox">
-			<div class="col-md-3 card-img mb-3" v-for="(item, index) in fileInfos" :key="index">
+			<div class="col-md-12 card-img mb-3">
 				<div>
-					<a :href="item.url_max" data-fancybox="gallery">
-						<img :src="item.url_square" alt="" class="w-100">
+					<a :href="fileInfos.url_max" data-fancybox="unico">
+						<img :src="fileInfos.url_square" alt="" class="w-100">
 					</a>
 				</div>
 				<div class="d-flex justify-content-center">
-					<button class="btn text-danger" @click.prevent=deletarImg(item)>
+					<button class="btn-upload-close" @click.prevent=deletarImg(fileInfos)>
 						<i class="fa-solid fa-circle-xmark"></i>
 					</button>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -80,8 +78,7 @@ export default {
 		},
 		//enviarMensagemParaPai() {
 		deletarImg(item) {
-			// Emite um evento personalizado chamado 'mensagem-para-pai'
-			this.$emit('mensagem-para-pai', item);
+			this.$emit('send-file-to-parent', item);
 		},
 	
 		initFancybox() {
@@ -95,9 +92,10 @@ export default {
 
 	},
 
-
+	
 
 };
+
 </script>
 
 <style scoped>
@@ -106,6 +104,15 @@ export default {
 	opacity: 0;
 	transition: opacity 1s ease-out;
 	/* Adjust duration and timing function as needed */
+}
+
+
+.btn-upload-close{
+	background: none;
+	border: none;
+	font-size: 22px;
+    color: orangered;
+    cursor: pointer;
 }
 </style>
   

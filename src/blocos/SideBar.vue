@@ -1,10 +1,10 @@
 <template>
 	<div id="mySidebar" class="sidebar">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-  <VaSidebar width="100%" color="#181824">
+  <VaSidebar width="100%" color="#181824" class="side-menu">
       <VaSidebarItem>
         <VaSidebarItemContent>
-          <VaIcon name="dashboard" />
+          <i class="fa-solid fa-gear"></i>
           <VaSidebarItemTitle>Dashboard</VaSidebarItemTitle>
         </VaSidebarItemContent>
       </VaSidebarItem>
@@ -13,7 +13,7 @@
           <template #header="{ value: isCollapsed }">
             <VaSidebarItem>
               <VaSidebarItemContent>
-                <VaIcon name="mail" />
+                <i class="fa-solid fa-gear"></i>
                 <VaSidebarItemTitle>Messages</VaSidebarItemTitle>
                 <VaSpacer />
                 <VaIcon :name="isCollapsed ? 'va-arrow-up' : 'va-arrow-down'" />
@@ -69,8 +69,8 @@
 	.va-sidebar__item__content{
 		display: flex;
     align-items: center;
-    padding: 10px;
-    min-height: 46px;
+    padding: 5px 10px;
+    min-height: 40px;
     box-sizing: border-box;
 	}
 

@@ -1,25 +1,28 @@
 <template>
-<div class="d-flex justify-content-between topo">
-	<div>
-		<button class="openbtn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>  
+<div class="w-100">
+	<div class="topo d-flex justify-content-between">
+		<div class="">
+			<div>
+				<button id="btn-action-sidebar" class="openbtn" action="close" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>  
+			</div>
+		</div>
+		<div class="">
+			<div class="d-flex justify-content-end">
+				<VaButtonDropdown preset="secondary" class="  pd-0 btn-config">
+					<template #label>
+						<VaAvatar src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo" />
+						<span>Nome do usuário</span>
+					</template>
+					<ul>
+						<li><a href="">asdfa</a></li>
+						<li><a href="">asdfa</a></li>
+						<li><a href="">asdfa</a></li>
+						<li><a href="">asdfa</a></li>
+					</ul>
+				</VaButtonDropdown>
+			</div>
+		</div>
 	</div>
-	<div class="flex items-center">
-
-
-
-<VaButtonDropdown preset="secondary" class="mr-2  pd-0 btn-config">
-	<template #label>
-		<VaAvatar src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo" />
-		<span>Nome do usuário</span>
-	</template>
-	<ul>
-		<li><a href="">asdfa</a></li>
-		<li><a href="">asdfa</a></li>
-		<li><a href="">asdfa</a></li>
-		<li><a href="">asdfa</a></li>
-	</ul>
-</VaButtonDropdown>
-</div>
 </div>
    
 </template>
@@ -29,7 +32,6 @@
 
 	.topo{
 		background: white;
-		padding: 0 16px;
 		height: 50px
 	}
 	.drop-down-area{
