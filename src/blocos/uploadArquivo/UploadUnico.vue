@@ -2,8 +2,7 @@
 	<VaCard>
 		<VaCardTitle>Upload Único</VaCardTitle>
 		<VaCardContent>
-				<p class="card-description">Instrução adicional </p>
-				<p>Data from Child: {{ tipo }}</p>
+				<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
 				<div>
 					<div v-show="!showArquivo" class="mb-3 mt-2">
 						<label class="btn-upload">
@@ -56,6 +55,10 @@ export default {
 		tipo: {
 			type: String,
 			required: true
+		},
+		infoTxt: {
+			type: String,
+			required: false
 		},
 	},
 	data() {

@@ -2,8 +2,7 @@
 	<VaCard>
 		<VaCardTitle>Upload Galeria</VaCardTitle>
 		<VaCardContent>
-				<p class="card-description">Instrução adicional </p>
-				<p>Data from Child: {{ receivedData }}</p>
+				<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
 				<div>
 					<div class="mb-3">
 						<label class="btn-upload">
@@ -52,7 +51,20 @@ export default {
 	components: {
 		GaleriaUploads 
 	},
-	props: ['tkn','tipo'],
+	props: {
+		tkn: {
+			type: String,
+			required: true
+		},
+		tipo: {
+			type: String,
+			required: true
+		},
+		infoTxt: {
+			type: String,
+			required: false
+		},
+	},
 	data() {
 		return {
 			selectedFiles: undefined,

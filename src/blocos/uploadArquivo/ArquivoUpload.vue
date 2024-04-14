@@ -32,7 +32,7 @@ export default {
 		fileInfos: {
 			type: Object,
 			required: true
-		},
+		}		
 	},
 	data() {
 		return {

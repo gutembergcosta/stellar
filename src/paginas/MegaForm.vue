@@ -25,10 +25,10 @@
               </div>   
             </VaCardContent>
           </VaCard>          
-          <UploadGaleria tipo="galeria" tkn="tkn"/>
+          <UploadGaleria tipo="galeria" tkn="tkn" infoTxt="Galeria"/>
         </div>
         <div class="col-md-3">
-          <UploadUnico tipo="destaque" tkn="tkn" />
+          <UploadUnico tipo="destaque" tkn="tkn" infoTxt="Imagem destaque" />
         </div>
       </div>
     </div>
