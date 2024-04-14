@@ -1,37 +1,35 @@
 <template>
-	<VaCard>
-		<VaCardTitle>Upload Único</VaCardTitle>
-		<VaCardContent>
-				<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
-				<div>
-					<div v-show="!showArquivo" class="mb-3 mt-2">
-						<label class="btn-upload">
-							<input type="file" ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles" hidden />
-							<div class="va-button__content">Upload</div>
-						</label>
-					</div>
-					<div v-if="errorMessages">
-						<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show" role="alert">
-						{{ item.texto }}
-						<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close" @click=removeErrorMsg(item)>
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
+	<CardBase titulo="Imagem destaque">
+		<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
+		<div>
+			<div v-show="!showArquivo" class="mb-3 mt-2">
+				<label class="btn-upload">
+					<input type="file" ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles" hidden />
+					<div class="va-button__content">Upload</div>
+				</label>
+			</div>
+			<div v-if="errorMessages">
+				<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show" role="alert">
+					{{ item.texto }}
+					<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close" @click=removeErrorMsg(item)>
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-				<div class="mb-3" v-if="progressInfos">
-					<div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
-						<span>{{ progressInfo.fileName }}</span>
+			</div>
+			<div class="mb-3" v-if="progressInfos">
+				<div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
+					<span>{{ progressInfo.fileName }}</span>
 					<div class="progress">
 						<div class="progress-bar progress-bar-info" role="progressbar" :aria-valuenow="progressInfo.percentage" aria-valuemin="0" aria-valuemax="100" :style="{ width: progressInfo.percentage + '%' }">
 							{{ progressInfo.percentage }}%
 						</div>
 					</div>
 				</div>
-				</div>
-				<ArquivoUpload v-show="showArquivo" @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos"/>
-				</div>
-		</VaCardContent>
-	</VaCard>	
+			</div>
+			<ArquivoUpload v-show="showArquivo" @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos"/>
+		</div>
+	</CardBase>
+	
 </template>
   
 <script>

@@ -6,25 +6,22 @@
       <TituloPage/>
       <div class="row">
         <div class="col-md-9">
-          <VaCard class="mb-4">
-            <VaCardTitle>Title</VaCardTitle>
-            <VaCardContent>
-              <div class="row">
-                <div class="col-md-4 mb-3">
-                  <VaInput v-model="nome" placeholder="Default" label="Default"/>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <VaInput v-model="info" placeholder="Default" label="Default" />
-                </div>
-                <div class="col-md-4 mb-3">
-                  <VaSelect v-model="value" label="Default" :options="options" />
-                </div>
-                <div class="col-md-12">
-                  <VaButton> Salvar </VaButton>
-                </div>
-              </div>   
-            </VaCardContent>
-          </VaCard>          
+          <CardBase titulo="Formulário">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <VaInput v-model="nome" placeholder="Default" label="Default"/>
+              </div>
+              <div class="col-md-4 mb-3">
+                <VaInput v-model="info" placeholder="Default" label="Default" />
+              </div>
+              <div class="col-md-4 mb-3">
+                <VaSelect v-model="value" label="Default" :options="options" />
+              </div>
+              <div class="col-md-12 mt-2">
+                <VaButton> Salvar </VaButton>
+              </div>
+            </div> 
+          </CardBase>        
           <UploadGaleria tipo="galeria" tkn="tkn" infoTxt="Galeria"/>
         </div>
         <div class="col-md-3">
@@ -83,7 +80,7 @@ export default {
 }
 </script>
   
-<style>
+<style scoped>
 .accordion {
   background-color: #eee;
   color: #444;

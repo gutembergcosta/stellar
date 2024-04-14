@@ -1,39 +1,42 @@
 <template>
+	<CardBase titulo="Upload Galeria">
+		<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
+		<div>
+			<div class="mb-3">
+				<label class="btn-upload">
+					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles" hidden />
+					<div class="va-button__content">Upload</div>
+				</label>
+			</div>
+			<div v-if="errorMessages">
+				<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show" role="alert">
+				{{ item.texto }}
+				<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close" @click=removeErrorMsg(item)>
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+		<div class="mb-3" v-if="progressInfos">
+			<div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
+				<span>{{ progressInfo.fileName }}</span>
+			<div class="progress">
+				<div class="progress-bar progress-bar-info" role="progressbar" :aria-valuenow="progressInfo.percentage" aria-valuemin="0" aria-valuemax="100" :style="{ width: progressInfo.percentage + '%' }">
+					{{ progressInfo.percentage }}%
+				</div>
+			</div>
+		</div>
+		</div>
+		<GaleriaUploads 
+		@send-file-to-parent="getFileUpload"
+		:messagez="parentMessage" 
+		:fileInfos="fileInfos"
+		/>
+		</div>
+	</CardBase>
 	<VaCard>
 		<VaCardTitle>Upload Galeria</VaCardTitle>
 		<VaCardContent>
-				<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
-				<div>
-					<div class="mb-3">
-						<label class="btn-upload">
-							<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles" hidden />
-							<div class="va-button__content">Upload</div>
-						</label>
-					</div>
-					<div v-if="errorMessages">
-						<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show" role="alert">
-						{{ item.texto }}
-						<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close" @click=removeErrorMsg(item)>
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</div>
-				<div class="mb-3" v-if="progressInfos">
-					<div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
-						<span>{{ progressInfo.fileName }}</span>
-					<div class="progress">
-						<div class="progress-bar progress-bar-info" role="progressbar" :aria-valuenow="progressInfo.percentage" aria-valuemin="0" aria-valuemax="100" :style="{ width: progressInfo.percentage + '%' }">
-							{{ progressInfo.percentage }}%
-						</div>
-					</div>
-				</div>
-				</div>
-				<GaleriaUploads 
-				@send-file-to-parent="getFileUpload"
-				:messagez="parentMessage" 
-				:fileInfos="fileInfos"
-				/>
-				</div>
+				
 		</VaCardContent>
 	</VaCard>	
 </template>
