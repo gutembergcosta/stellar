@@ -1,12 +1,8 @@
 <template>
-
-  <VaCard class="card-base mb-4">
-    <VaCardTitle class="titulo mb-4">{{titulo}}</VaCardTitle>
-    <VaCardContent>
-			<slot></slot>
-    </VaCardContent>
-  </VaCard>          
-          
+	<div class="card mb-4">
+		<div class="card-header">{{titulo}}</div>
+		<div class="card-body"><slot></slot></div>
+	</div>
 </template>
   
 <script>
@@ -19,15 +15,3 @@
 		},
 	}
 </script>
-
-<style scoped>
-.card-base{
-
-}
-
-.titulo{
-	
-}
-</style>
-  
-  
