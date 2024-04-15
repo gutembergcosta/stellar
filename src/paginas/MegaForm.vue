@@ -9,13 +9,13 @@
           <CardBase titulo="Formulário">
             <div class="row">
               <div class="col-md-4 mb-3">
-                <VaInput v-model="nome" placeholder="Default" label="Default"/>
+                <VaInput v-model="nome" placeholder="Default" label="Nome"/>
               </div>
               <div class="col-md-4 mb-3">
-                <VaInput v-model="info" placeholder="Default" label="Default" />
+                <VaInput v-model="info" placeholder="Default" label="Info" />
               </div>
               <div class="col-md-4 mb-3">
-                <VaSelect v-model="value" label="Default" :options="options" />
+                <VaSelect v-model="value" label="Categoria" :options="options" />
               </div>
               <div class="col-md-12 mt-2">
                 <VaButton> Salvar </VaButton>
