@@ -4,37 +4,32 @@
 		<div>
 			<div class="mb-3">
 				<label class="btn-upload">
-					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles" hidden />
+					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf"
+						:disabled="selectedFiles" hidden />
 					<div class="va-button__content">Upload</div>
 				</label>
 			</div>
 			<div v-if="errorMessages">
-				<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show" role="alert">
-				{{ item.texto }}
-				<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close" @click=removeErrorMsg(item)>
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-		</div>
-		<div class="mb-3" v-if="progressInfos">
-			<div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
-				<span>{{ progressInfo.fileName }}</span>
-			<div class="progress">
-				<div class="progress-bar progress-bar-info" role="progressbar" :aria-valuenow="progressInfo.percentage" aria-valuemin="0" aria-valuemax="100" :style="{ width: progressInfo.percentage + '%' }">
-					{{ progressInfo.percentage }}%
+				<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show"
+					role="alert">
+					{{ item.texto }}
+					<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close"
+						@click=removeErrorMsg(item)>
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 			</div>
+			<div class="mb-3" v-if="progressInfos">
+				<div class="progress mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
+					<div class="progress-bar" :style="{ width: progressInfo.percentage + '%' }">{{
+			progressInfo.percentage }}%</div>
+				</div>
+			</div>
+			<GaleriaUploads @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos" />
 		</div>
-		</div>
-		<GaleriaUploads 
-		@send-file-to-parent="getFileUpload"
-		:messagez="parentMessage" 
-		:fileInfos="fileInfos"
-		/>
-		</div>
-	</CardBase>	
+	</CardBase>
 </template>
-  
+
 <script>
 
 import { uniqid } from '@/helpers/uniqid.js';
@@ -46,7 +41,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 export default {
 	name: "upload-files",
 	components: {
-		GaleriaUploads 
+		GaleriaUploads
 	},
 	props: {
 		tkn: {
@@ -105,8 +100,8 @@ export default {
 		},
 		getErrorIndex(msg) {
 			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = this.errorMessages.findIndex( item => item.id === msg.id );
-			return index;      
+			let index = this.errorMessages.findIndex(item => item.id === msg.id);
+			return index;
 		},
 		getFileUpload(arquivo) {
 			console.log('arquivo')
@@ -118,12 +113,12 @@ export default {
 			if (result) {
 				let index = this.getArquivoIndex(arquivo);
 				this.fileInfos.splice(index, 1);
-			} 
+			}
 		},
 		getArquivoIndex(arquivo) {
 			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = this.fileInfos.findIndex( item => item.id === arquivo.id );
-			return index;      
+			let index = this.fileInfos.findIndex(item => item.id === arquivo.id);
+			return index;
 		},
 		upload(idx, file) {
 			this.arquivoNome = "";
@@ -133,31 +128,31 @@ export default {
 			UploadService.upload(file, this.tipo, this.tkn, (event) => {
 				this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);
 			})
-			.then(() => {
-				let uploaded = ++this.uploaded
-				if (uploaded == this.qteImages) {
+				.then(() => {
+					let uploaded = ++this.uploaded
+					if (uploaded == this.qteImages) {
+						this.listArquivos();
+						this.clearFile();
+					}
+				})
+				.catch((error) => {
+
+					//let prevMessage = this.message ? this.message + "\n" : "";
+					let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
+
+					let id = uniqid()
+					let erro = {
+						id: id,
+						texto: errorMsg
+					};
+
+					this.errorMessages.push(erro);
+
+				})
+				.finally(() => {
 					this.listArquivos();
 					this.clearFile();
-				}
-			})
-			.catch((error) => {
-
-				//let prevMessage = this.message ? this.message + "\n" : "";
-				let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
-
-				let id = uniqid()
-				let erro = {
-					id: id,
-					texto: errorMsg
-				};
-
-				this.errorMessages.push(erro);
-
-			})
-			.finally(() => {
-				this.listArquivos();
-				this.clearFile();
-			})
+				})
 		},
 		listArquivos() {
 			UploadService.list(this.tipo, this.tkn).then((response) => {
@@ -171,7 +166,7 @@ export default {
 			this.uploaded = 0;
 		},
 	},
-	mounted() {		
+	mounted() {
 		this.listArquivos();
 	},
 
@@ -202,21 +197,21 @@ export default {
 	/* Adjust duration and timing function as needed */
 }
 
-.progress{
+.progress {
 	background-color: rgb(233, 236, 239);
 	border-radius: 4px;
 	box-sizing: border-box;
-	color :rgb(33, 37, 41);
+	color: rgb(33, 37, 41);
 	display: flex;
-	font-size :12px;
+	font-size: 12px;
 	font-weight: 400;
 	height: 16px;
 	line-height: 18px;
-	overflow :hidden;
+	overflow: hidden;
 	text-align: left;
 }
 
-.progress-bar{
+.progress-bar {
 	background-color: rgb(0, 123, 255);
 	box-sizing: border-box;
 	color: rgb(255, 255, 255);
@@ -230,14 +225,10 @@ export default {
 	text-align: center;
 	transition-behavior: normal;
 	transition-delay: 0s;
-	transition-duration :0.6s;
-	transition-property :width;
+	transition-duration: 0.6s;
+	transition-property: width;
 	transition-timing-function: ease;
-	width:200px;
+	width: 200px;
 
 }
-
 </style>
-  
-
-  

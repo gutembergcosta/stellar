@@ -1,7 +1,6 @@
 <template>
-	<div class="card">
 		<div class="row " :options="optionsFancyBox">
-			<div class="col-md-3 wx-20 card-img mb-3" v-for="(item, index) in fileInfos" :key="index">
+			<div class="col-md-3  mb-3" v-for="(item, index) in fileInfos" :key="index">
 				<div>
 					<a :href="item.url_max" data-fancybox="gallery">
 						<img :src="item.url_square" alt="" class="w-100">
@@ -14,7 +13,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </template>
   
 <script>

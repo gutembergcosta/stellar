@@ -1,17 +1,15 @@
 <template>
-	<div class="card">
-		<div class="row " :options="optionsFancyBox">
-			<div class="col-md-12 card-img mb-3">
-				<div>
-					<a :href="fileInfos.url_max" data-fancybox="unico">
-						<img :src="fileInfos.url_square" alt="" class="w-100">
-					</a>
-				</div>
-				<div class="d-flex justify-content-center">
-					<button class="btn-upload-close" @click.prevent=deletarImg(fileInfos)>
-						<i class="fa-solid fa-circle-xmark"></i>
-					</button>
-				</div>
+	<div class="row " :options="optionsFancyBox">
+		<div class="col-md-12 mb-3">
+			<div>
+				<a :href="fileInfos.url_max" data-fancybox="unico">
+					<img :src="fileInfos.url_square" alt="" class="w-100">
+				</a>
+			</div>
+			<div class="d-flex justify-content-center">
+				<button class="btn-upload-close" @click.prevent=deletarImg(fileInfos)>
+					<i class="fa-solid fa-circle-xmark"></i>
+				</button>
 			</div>
 		</div>
 	</div>
