@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { createVuestic } from "vuestic-ui";
 import "vuestic-ui/css";
 
@@ -30,7 +31,6 @@ app.component('TituloPage', TituloPage);
 app.component('UploadGaleria', UploadGaleria);
 app.component('UploadUnico', UploadUnico);
 app.component('CardBase', CardBase);
-
 
 app.use(router);
 app.use(createVuestic());

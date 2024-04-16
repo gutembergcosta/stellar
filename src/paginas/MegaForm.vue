@@ -67,7 +67,6 @@
                   </div>
                   <div class="col-md-12 mb-3"></div>
                   <div class="col-md-12 mb-3"></div>
-                  <div class="col-md-12 mb-3"></div>
                   <div class="col-md-12">
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
@@ -86,7 +85,6 @@
 </template>
   
 <script>
-  
 
 export default {
   data() {
