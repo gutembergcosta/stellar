@@ -77,6 +77,9 @@
         </div>
         <div class="col-md-3">
           <UploadUnico tipo="destaque" tkn="tkn" infoTxt="Imagem destaque" />
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
+	
+          <ModalBase/>
         </div>
       </div>
     </div>
