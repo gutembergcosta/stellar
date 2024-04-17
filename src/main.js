@@ -2,10 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { createVuestic } from "vuestic-ui";
-import "vuestic-ui/css";
-
-import { VaCard } from "vuestic-ui";
+import 'bootstrap/dist/js/bootstrap.min.js'
 
 import TopoDefault from '@/blocos/TopoDefault.vue';
 import FooterPage from '@/blocos/FooterPage.vue';
