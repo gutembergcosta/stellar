@@ -8,28 +8,24 @@
 		</div>
 		<div class="avatar-area">
 			<div class="d-flex justify-content-end">
-				<VaButtonDropdown preset="secondary" class="  pd-0 btn-config">
-					<template #label>
-						<VaAvatar src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo" />
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<img src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo" />
 						<span class="avatar-usernome">Nome do usuário</span>
-					</template>
-					<ul>
-						<li><a href="">asdfa</a></li>
-						<li><a href="">asdfa</a></li>
-						<li><a href="">asdfa</a></li>
-						<li><a href="">asdfa</a></li>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Action</a></li>
+						<li><a class="dropdown-item" href="#">Another action</a></li>
+						<li><a class="dropdown-item" href="#">Something else here</a></li>
 					</ul>
-				</VaButtonDropdown>
+				</div>				
 			</div>
 		</div>
 	</div>
-</div>
-   
+</div>   
 </template>
 
 <style scoped>
-
-
 	.topo{
 		background: white;
 		height: 50px
