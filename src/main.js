@@ -11,16 +11,13 @@ import TituloPage from '@/blocos/TituloPage.vue';
 import CardBase from '@/blocos/CardBase.vue';
 import ModalBase from '@/blocos/ModalBase.vue';
 import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
-
-
+import UploadUnico from '@/blocos/uploadArquivo/UploadUnico.vue';
 
 createApp(App).use(router).mount('#app')
 
 const app = createApp(App);
 
 // Register the component globally
-app.component('VaCard', VaCard);
-
 app.component('TopoDefault', TopoDefault);
 app.component('FooterPage', FooterPage);
 app.component('SideBar', SideBar);
@@ -31,9 +28,6 @@ app.component('CardBase', CardBase);
 app.component('ModalBase', ModalBase);
 
 app.use(router);
-app.use(createVuestic());
-
-
 
 // Mount the app
 app.mount('#app');
