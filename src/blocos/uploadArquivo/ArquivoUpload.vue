@@ -1,9 +1,9 @@
 <template>
 	<div class="row " :options="optionsFancyBox">
-		<div class="col-md-12 mb-3">
+		<div v-if="fileInfos" class="col-md-12 mb-3">
 			<div>
 				<a :href="fileInfos.url_max" data-fancybox="unico">
-					<img :src="fileInfos.url_square" alt="" class="w-100">
+					<img :src="fileInfos?.url_square" alt="" class="w-100">
 				</a>
 			</div>
 			<div class="d-flex justify-content-center">

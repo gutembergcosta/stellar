@@ -159,8 +159,9 @@ export default {
 		listArquivos() {
 			UploadService.list(this.tipo, this.tkn).then((response) => {
 				this.fileInfos = response.data.data[0];
-				this.showArquivo = true;
-
+				if(this.fileInfos) {
+					this.showArquivo = true;
+				}
 				console.log('img')
 				console.log(this.fileInfos)
 			});
