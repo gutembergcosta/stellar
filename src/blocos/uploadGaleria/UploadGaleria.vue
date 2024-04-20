@@ -3,7 +3,7 @@
 		<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
 		<div>
 			<div class="mb-3">
-				<label class="btn-upload">
+				<label class="btn btn-primary rounded-0">
 					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf"
 						:disabled="selectedFiles" hidden />
 					<div class="va-button__content">Upload</div>
@@ -30,7 +30,8 @@
 	</CardBase>
 </template>
 
-<script>
+<script setup >
+import { ref, onMounted , defineProps} from 'vue';
 
 import { uniqid } from '@/helpers/uniqid.js';
 import UploadService from "@/services/UploadFilesService";
@@ -38,12 +39,24 @@ import GaleriaUploads from "./GaleriaUploads.vue";
 
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-export default {
-	name: "upload-files",
-	components: {
-		GaleriaUploads
-	},
-	props: {
+
+
+		const fileInfos = ref([]);
+
+		const selectedFiles = ref(null);
+		const fileInput = ref(null);
+		const progressInfos = ref([]);
+		const parentMessage = ref('Hello from parent!');
+		const message = ref("");
+		const errorMessages = ref([]);
+		const arquivoNome = ref("");
+		const qteImages = ref(0);
+		const uploaded = ref(0);
+	
+
+
+
+	const props = defineProps({
 		tkn: {
 			type: String,
 			required: true
@@ -56,88 +69,45 @@ export default {
 			type: String,
 			required: false
 		},
-	},
-	data() {
-		return {
-			selectedFiles: undefined,
-			progressInfos: [],
-			parentMessage: 'Hello from parent!',
-			message: "",
-			mensagemRecebida: '',
-			errorMessages: [],
-			arquivoNome: "",
-			qteImages: 0,
-			uploaded: 0,
-			fileInfos: [],
-			uploadFolder: process.env.VUE_APP_UPLOADS,
-			optionsFancyBox: {
-				Carousel: {
-					infinite: true,
-				},
-				Thumbs: {
-					type: "classic",
-				},
-			},
+	});
+
+		const selectFile = (event) => {
+			progressInfos.value = [];
+			selectedFiles.value = event.target.files;
+			console.log('event.target.files');
+			console.log(event.target.files);
+
+			uploadFiles();
 		};
-	},
-	methods: {
-		selectFile(event) {
-			this.progressInfos = [];
-			this.selectedFiles = event.target.files;
-			this.uploadFiles();
-		},
-		uploadFiles() {
-			this.message = "";
-			this.qteImages = this.selectedFiles.length;
 
-			for (let i = 0; i < this.qteImages; i++) {
-				this.upload(i, this.selectedFiles[i]);
+		const uploadFiles = () => {
+			message.value = "";
+			let qteImages = selectedFiles.value.length;
+			for (let i = 0; i < qteImages; i++) {
+				upload(i, selectedFiles.value[i]);
 			}
-		},
-		removeErrorMsg(msg) {
-			let index = this.getErrorIndex(msg);
-			this.errorMessages.splice(index, 1);
-		},
-		getErrorIndex(msg) {
-			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = this.errorMessages.findIndex(item => item.id === msg.id);
-			return index;
-		},
-		getFileUpload(arquivo) {
-			console.log('arquivo')
-			console.log(arquivo)
-			this.removeArquivo(arquivo)
-		},
-		removeArquivo(arquivo) {
-			var result = confirm("Deseja excluir este item?");
-			if (result) {
-				let index = this.getArquivoIndex(arquivo);
-				this.fileInfos.splice(index, 1);
-			}
-		},
-		getArquivoIndex(arquivo) {
-			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = this.fileInfos.findIndex(item => item.id === arquivo.id);
-			return index;
-		},
-		upload(idx, file) {
-			this.arquivoNome = "";
-			this.progressInfos[idx] = { percentage: 0, fileName: file.name };
-			this.arquivoNome = file.name;
+		};
 
-			UploadService.upload(file, this.tipo, this.tkn, (event) => {
-				this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);
+		const upload = (idx, file) => {
+			arquivoNome.value = "";
+			progressInfos.value[idx] = { percentage: 0, fileName: file.name };
+			arquivoNome.value = file.name;
+
+			UploadService.upload(file, props.tipo, props.tkn, (event) => {
+				progressInfos.value[idx].percentage = Math.round(100 * event.loaded / event.total);
 			})
 				.then(() => {
-					let uploaded = ++this.uploaded
-					if (uploaded == this.qteImages) {
-						this.listArquivos();
-						this.clearFile();
+					let totaluploaded = ++uploaded.value
+					if (totaluploaded == qteImages.value) {
+						listArquivos();
+						clearFile();
 					}
 				})
 				.catch((error) => {
 
-					//let prevMessage = this.message ? this.message + "\n" : "";
+					alert('erro');
+					console.log('error');
+					console.log(error);
 					let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
 
 					let id = uniqid()
@@ -146,31 +116,65 @@ export default {
 						texto: errorMsg
 					};
 
-					this.errorMessages.push(erro);
+					errorMessages.value.push(erro);
 
 				})
 				.finally(() => {
-					this.listArquivos();
-					this.clearFile();
-				})
-		},
-		listArquivos() {
-			UploadService.list(this.tipo, this.tkn).then((response) => {
-				this.fileInfos = response.data.data;
-			});
-		},
-		clearFile() {
-			this.$refs.fileInput.value = null;
-			this.progressInfos = [];
-			this.selectedFiles = undefined;
-			this.uploaded = 0;
-		},
-	},
-	mounted() {
-		this.listArquivos();
-	},
+					selectFile.value = null;
+					listArquivos();
+					clearFile();
 
-};
+				})
+		};
+
+		const listArquivos = () => {
+			UploadService.list(props.tipo, props.tkn).then((response) => {
+					fileInfos.value = response?.data?.data;
+			});
+		};
+
+		const clearFile = () => {
+			fileInput.value = null;
+			progressInfos.value = [];
+			selectedFiles.value = undefined;
+			uploaded.value = 0;
+		};
+
+		const getFileUpload = (arquivo) => {
+			console.log('arquivo')
+			console.log(arquivo)
+			removeArquivo(arquivo)
+		};
+
+		const removeArquivo = (arquivo) => {
+			var result = confirm("Deseja excluir este item?");
+			if (result) {
+				let index = getArquivoIndex(arquivo);
+				fileInfos.value.splice(index, 1);
+			}
+		};
+
+		const getArquivoIndex = (arquivo) => {
+			//..recebe o todo como parâmetro, procura ele e retorna o seu index
+			let index = fileInfos.value.findIndex(item => item.id === arquivo.id);
+			return index;
+		};
+
+		const removeErrorMsg = (msg) =>{
+			let index = getErrorIndex(msg);
+			errorMessages.value.splice(index, 1);
+		};
+
+		const getErrorIndex = (msg) => {
+			//..recebe o todo como parâmetro, procura ele e retorna o seu index
+			let index = errorMessages.value.findIndex(item => item.id === msg.id);
+			return index;
+		};
+
+		onMounted(() => {
+      listArquivos();
+    });
+
 </script>
 
 <style scoped>

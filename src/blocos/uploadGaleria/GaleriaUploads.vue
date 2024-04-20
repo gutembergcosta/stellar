@@ -1,9 +1,9 @@
 <template>
-		<div class="row " :options="optionsFancyBox">
+		<div v-if="fileInfos.length >0" class="row " :options="optionsFancyBox">
 			<div class="col-md-3  mb-3" v-for="(item, index) in fileInfos" :key="index">
 				<div>
-					<a :href="item.url_max" data-fancybox="gallery">
-						<img :src="item.url_square" alt="" class="w-100">
+					<a :href="item?.url_max" data-fancybox="gallery">
+						<img :src="item?.url_square" alt="" class="w-100">
 					</a>
 				</div>
 				<div class="d-flex justify-content-center">
