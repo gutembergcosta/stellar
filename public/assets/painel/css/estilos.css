@@ -1,3 +1,14 @@
+body {
+    font-family: "Lato", sans-serif;
+    background: #ecf0f5!important;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .pagina{
+    display: flex;
+  }
+  
   .sidebar {
     height: 100%;
     
