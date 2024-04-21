@@ -21,8 +21,7 @@
 			</div>
 			<div class="mb-3" v-if="progressInfos">
 				<div class="progress mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
-					<div class="progress-bar" :style="{ width: progressInfo.percentage + '%' }">{{
-			progressInfo.percentage }}%</div>
+					<div class="progress-bar" :style="{ width: progressInfo.percentage + '%' }">{{progressInfo.percentage }}%</div>
 				</div>
 			</div>
 			<GaleriaUploads @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos" />
@@ -31,30 +30,23 @@
 </template>
 
 <script setup >
-import { ref, onMounted , defineProps} from 'vue';
+	import { ref, onMounted , defineProps} from 'vue';
 
-import { uniqid } from '@/helpers/uniqid.js';
-import UploadService from "@/services/UploadFilesService";
-import GaleriaUploads from "./GaleriaUploads.vue";
+	import { uniqid } from '@/helpers/uniqid.js';
+	import UploadService from "@/services/UploadFilesService";
+	import GaleriaUploads from "./GaleriaUploads.vue";
+	import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-import "@fancyapps/ui/dist/fancybox/fancybox.css";
-
-
-
-		const fileInfos = ref([]);
-
-		const selectedFiles = ref(null);
-		const fileInput = ref(null);
-		const progressInfos = ref([]);
-		const parentMessage = ref('Hello from parent!');
-		const message = ref("");
-		const errorMessages = ref([]);
-		const arquivoNome = ref("");
-		const qteImages = ref(0);
-		const uploaded = ref(0);
-	
-
-
+	const fileInfos = ref([]);
+	const selectedFiles = ref(null);
+	const fileInput = ref(null);
+	const progressInfos = ref([]);
+	const parentMessage = ref('Hello from parent!');
+	const message = ref("");
+	const errorMessages = ref([]);
+	const arquivoNome = ref("");
+	const qteImages = ref(0);
+	const uploaded = ref(0);
 
 	const props = defineProps({
 		tkn: {
@@ -71,107 +63,107 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 		},
 	});
 
-		const selectFile = (event) => {
-			progressInfos.value = [];
-			selectedFiles.value = event.target.files;
-			console.log('event.target.files');
-			console.log(event.target.files);
+	const selectFile = (event) => {
+		progressInfos.value = [];
+		selectedFiles.value = event.target.files;
+		console.log('event.target.files');
+		console.log(event.target.files);
 
-			uploadFiles();
-		};
+		uploadFiles();
+	};
 
-		const uploadFiles = () => {
-			message.value = "";
-			let qteImages = selectedFiles.value.length;
-			for (let i = 0; i < qteImages; i++) {
-				upload(i, selectedFiles.value[i]);
-			}
-		};
+	const uploadFiles = () => {
+		message.value = "";
+		let qteImages = selectedFiles.value.length;
+		for (let i = 0; i < qteImages; i++) {
+			upload(i, selectedFiles.value[i]);
+		}
+	};
 
-		const upload = (idx, file) => {
-			arquivoNome.value = "";
-			progressInfos.value[idx] = { percentage: 0, fileName: file.name };
-			arquivoNome.value = file.name;
+	const upload = (idx, file) => {
+		arquivoNome.value = "";
+		progressInfos.value[idx] = { percentage: 0, fileName: file.name };
+		arquivoNome.value = file.name;
 
-			UploadService.upload(file, props.tipo, props.tkn, (event) => {
-				progressInfos.value[idx].percentage = Math.round(100 * event.loaded / event.total);
-			})
-				.then(() => {
-					let totaluploaded = ++uploaded.value
-					if (totaluploaded == qteImages.value) {
-						listArquivos();
-						clearFile();
-					}
-				})
-				.catch((error) => {
-
-					alert('erro');
-					console.log('error');
-					console.log(error);
-					let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
-
-					let id = uniqid()
-					let erro = {
-						id: id,
-						texto: errorMsg
-					};
-
-					errorMessages.value.push(erro);
-
-				})
-				.finally(() => {
-					selectFile.value = null;
+		UploadService.upload(file, props.tipo, props.tkn, (event) => {
+			progressInfos.value[idx].percentage = Math.round(100 * event.loaded / event.total);
+		})
+			.then(() => {
+				let totaluploaded = ++uploaded.value
+				if (totaluploaded == qteImages.value) {
 					listArquivos();
 					clearFile();
+				}
+			})
+			.catch((error) => {
 
-				})
-		};
+				alert('erro');
+				console.log('error');
+				console.log(error);
+				let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
 
-		const listArquivos = () => {
-			UploadService.list(props.tipo, props.tkn).then((response) => {
-					fileInfos.value = response?.data?.data;
-			});
-		};
+				let id = uniqid()
+				let erro = {
+					id: id,
+					texto: errorMsg
+				};
 
-		const clearFile = () => {
-			fileInput.value = null;
-			progressInfos.value = [];
-			selectedFiles.value = undefined;
-			uploaded.value = 0;
-		};
+				errorMessages.value.push(erro);
 
-		const getFileUpload = (arquivo) => {
-			console.log('arquivo')
-			console.log(arquivo)
-			removeArquivo(arquivo)
-		};
+			})
+			.finally(() => {
+				selectFile.value = null;
+				listArquivos();
+				clearFile();
 
-		const removeArquivo = (arquivo) => {
-			var result = confirm("Deseja excluir este item?");
-			if (result) {
-				let index = getArquivoIndex(arquivo);
-				fileInfos.value.splice(index, 1);
-			}
-		};
+			})
+	};
 
-		const getArquivoIndex = (arquivo) => {
-			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = fileInfos.value.findIndex(item => item.id === arquivo.id);
-			return index;
-		};
+	const listArquivos = () => {
+		UploadService.list(props.tipo, props.tkn).then((response) => {
+				fileInfos.value = response?.data?.data;
+		});
+	};
 
-		const removeErrorMsg = (msg) =>{
-			let index = getErrorIndex(msg);
-			errorMessages.value.splice(index, 1);
-		};
+	const clearFile = () => {
+		fileInput.value = null;
+		progressInfos.value = [];
+		selectedFiles.value = undefined;
+		uploaded.value = 0;
+	};
 
-		const getErrorIndex = (msg) => {
-			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = errorMessages.value.findIndex(item => item.id === msg.id);
-			return index;
-		};
+	const getFileUpload = (arquivo) => {
+		console.log('arquivo')
+		console.log(arquivo)
+		removeArquivo(arquivo)
+	};
 
-		onMounted(() => {
+	const removeArquivo = (arquivo) => {
+		var result = confirm("Deseja excluir este item?");
+		if (result) {
+			let index = getArquivoIndex(arquivo);
+			fileInfos.value.splice(index, 1);
+		}
+	};
+
+	const getArquivoIndex = (arquivo) => {
+		//..recebe o todo como parâmetro, procura ele e retorna o seu index
+		let index = fileInfos.value.findIndex(item => item.id === arquivo.id);
+		return index;
+	};
+
+	const removeErrorMsg = (msg) =>{
+		let index = getErrorIndex(msg);
+		errorMessages.value.splice(index, 1);
+	};
+
+	const getErrorIndex = (msg) => {
+		//..recebe o todo como parâmetro, procura ele e retorna o seu index
+		let index = errorMessages.value.findIndex(item => item.id === msg.id);
+		return index;
+	};
+
+	onMounted(() => {
       listArquivos();
     });
 
