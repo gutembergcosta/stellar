@@ -10,6 +10,7 @@ import CardBase from '@/blocos/CardBase.vue';
 import ModalBase from '@/blocos/ModalBase.vue';
 import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
 import UploadUnico from '@/blocos/uploadArquivo/UploadUnico.vue';
+import '@/assets/estilos.css'
 
 createApp(App).use(router).mount('#app')
 
@@ -27,7 +28,6 @@ app.component('ModalBase', ModalBase);
 
 app.use(router);
 
-// Mount the app
 app.mount('#app');
 
 
