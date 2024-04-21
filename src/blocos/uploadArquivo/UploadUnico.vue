@@ -31,115 +31,121 @@
 	</CardBase>
 	
 </template>
-  
-<script>
 
-import { uniqid } from '@/helpers/uniqid.js';
-import UploadService from "@/services/UploadFilesService";
-import ArquivoUpload from "./ArquivoUpload.vue";
+<script setup>
 
-import "@fancyapps/ui/dist/fancybox/fancybox.css";
+  import { ref, onMounted , defineProps} from 'vue';
 
-export default {
-	name: "upload-files",
-	components: {
-		ArquivoUpload 
-	},
-	props: {
-		tkn: {
-			type: String,
-			required: true
-		},
-		tipo: {
-			type: String,
-			required: true
-		},
-		infoTxt: {
-			type: String,
-			required: false
-		},
-	},
-	data() {
-		return {
-			selectedFiles: undefined,
-			progressInfos: [],
-			parentMessage: 'Hello from parent!',
-			message: "",
-			mensagemRecebida: '',
-			showArquivo: false,
-			errorMessages: [],
-			arquivoNome: "",
-			qteImages: 0,
-			uploaded: 0,
-			fileInfos: [],
-			uploadFolder: process.env.VUE_APP_UPLOADS,
-			optionsFancyBox: {
-				Carousel: {
-					infinite: true,
-				},
-				Thumbs: {
-					type: "classic",
-				},
-			},
-		};
-	},
-	methods: {
-		selectFile(event) {
-			this.progressInfos = [];
-			this.selectedFiles = event.target.files;
-			this.uploadFiles();
-		},
-		uploadFiles() {
-			this.message = "";
-			this.qteImages = this.selectedFiles.length;
+  import { uniqid } from '@/helpers/uniqid.js';
+  import UploadService from "@/services/UploadFilesService";
+  import ArquivoUpload from "./ArquivoUpload.vue";
+  import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-			for (let i = 0; i < this.qteImages; i++) {
-				this.upload(i, this.selectedFiles[i]);
-			}
-		},
-		removeErrorMsg(msg) {
-			let index = this.getErrorIndex(msg);
-			this.errorMessages.splice(index, 1);
-		},
-		getErrorIndex(msg) {
-			//..recebe o todo como parâmetro, procura ele e retorna o seu index
-			let index = this.errorMessages.findIndex( item => item.id === msg.id );
-			return index;      
-		},
-		getFileUpload(arquivo) {
-			console.log('arquivo')
-			console.log(arquivo)
-			this.removeArquivo(arquivo)
-		},
-		removeArquivo(arquivo) {
+  const fileInfos = ref([]);
+  const selectedFiles = ref(undefined);
+  const progressInfos = ref([]);
+  const parentMessage = ref('Hello from parent!');
+  const message = ref("");
+  const showArquivo = ref(false);
+  const errorMessages = ref([]);
+  const arquivoNome = ref("");
+  const qteImages = ref(0);
+  const uploaded = ref(0);
+  const fileInput = ref(null);
 
-			console.log('arquivo');
-			console.log(arquivo);
-			var result = confirm("Deseja excluir este item?");
-			if (result) {
-				this.showArquivo = false;
-				this.fileInfos = [];
-			} 
-			
-		},		
-		upload(idx, file) {
-			this.arquivoNome = "";
-			this.progressInfos[idx] = { percentage: 0, fileName: file.name };
-			this.arquivoNome = file.name;		
 
-			UploadService.upload(file, this.tipo, this.tkn, (event) => {
-				this.progressInfos[idx].percentage = Math.round(100 * event.loaded / event.total);
-			})
+  const props = defineProps({
+    tkn: {
+      type: String,
+      required: true
+    },
+    tipo: {
+      type: String,
+      required: true
+    },
+    infoTxt: {
+      type: String,
+      required: false
+    },
+  });
+
+  const selectFile = (event) => {
+    progressInfos.value = [];
+    selectedFiles.value = event.target.files;
+    uploadFiles();
+  };
+
+  const removeErrorMsg = (msg) =>{
+    let index = getErrorIndex(msg);
+    errorMessages.value.splice(index, 1);
+  };
+
+  const getErrorIndex = (msg) => {
+    //..recebe o todo como parâmetro, procura ele e retorna o seu index
+    let index = errorMessages.value.findIndex(item => item.id === msg.id);
+    return index;
+  };
+
+  const clearFile = () => {
+    fileInput.value = null;
+    progressInfos.value = [];
+    selectedFiles.value = undefined;
+    uploaded.value = 0;
+  };
+
+  const uploadFiles = () => {
+    message.value = "";
+    let qteImages = selectedFiles.value.length;
+    for (let i = 0; i < qteImages; i++) {
+      upload(i, selectedFiles.value[i]);
+    }
+  };
+
+  const getFileUpload = (arquivo) => {
+    console.log('arquivo')
+    console.log(arquivo)
+    removeArquivo(arquivo)
+  };
+
+  const removeArquivo = (arquivo) => {
+    var result = confirm("Deseja excluir este item?");
+    if (result) {
+      alert(arquivo);
+      showArquivo.value = false;
+      fileInfos.value = [];
+    }
+  };
+
+  const listArquivos = () => {
+    UploadService.list(props.tipo, props.tkn).then((response) => {
+        let arquivo = response?.data?.data[0];
+        if(arquivo) {
+          fileInfos.value = arquivo;
+          showArquivo.value = true;
+        }
+    });
+  };
+
+  const upload = (idx, file) => {
+		arquivoNome.value = "";
+		progressInfos.value[idx] = { percentage: 0, fileName: file.name };
+		arquivoNome.value = file.name;
+
+		UploadService.upload(file, props.tipo, props.tkn, (event) => {
+			progressInfos.value[idx].percentage = Math.round(100 * event.loaded / event.total);
+		})
 			.then(() => {
-				let uploaded = ++this.uploaded
-				if (uploaded == this.qteImages) {
-					this.listArquivos();
-					this.clearFile();
+				let totaluploaded = ++uploaded.value
+				if (totaluploaded == qteImages.value) {
+					listArquivos();
+					clearFile();
 				}
 			})
 			.catch((error) => {
 
-				//let prevMessage = this.message ? this.message + "\n" : "";
+				alert('erro');
+				console.log('error');
+				console.log(error);
 				let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
 
 				let id = uniqid()
@@ -148,36 +154,21 @@ export default {
 					texto: errorMsg
 				};
 
-				this.errorMessages.push(erro);
+				errorMessages.value.push(erro);
 
 			})
 			.finally(() => {
-				this.listArquivos();
-				this.clearFile();
-			})
-		},
-		listArquivos() {
-			UploadService.list(this.tipo, this.tkn).then((response) => {
-				this.fileInfos = response.data.data[0];
-				if(this.fileInfos) {
-					this.showArquivo = true;
-				}
-				console.log('img')
-				console.log(this.fileInfos)
-			});
-		},
-		clearFile() {
-			this.$refs.fileInput.value = null;
-			this.progressInfos = [];
-			this.selectedFiles = undefined;
-			this.uploaded = 0;
-		},
-	},
-	mounted() {		
-		this.listArquivos();
-	},
+				selectFile.value = null;
+				listArquivos();
+				clearFile();
 
-};
+			})
+	};
+
+  onMounted(() => {
+    listArquivos();
+  });
+
 </script>
 
 <style scoped>
