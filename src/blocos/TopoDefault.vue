@@ -9,8 +9,8 @@
 		<div class="avatar-area">
 			<div class="d-flex justify-content-end">
 				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo" />
+					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<img src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo rounded-circle mr-2" />
 						<span class="avatar-usernome">Nome do usuário</span>
 					</button>
 					<ul class="dropdown-menu">
@@ -62,7 +62,11 @@
 	.btn-config{
 		height: 50px;
 	}
-	.avatar-topo{width: 35px; height: 35px;}
+	.avatar-topo{
+    width: 35px; 
+    height: 35px;
+    margin-right: 6px;
+  }
 	.avatar-usernome{
 		color: black;
 		font-weight: 400;
