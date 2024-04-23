@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MegaForm from '@/paginas/MegaForm.vue';
+import ItemForm from '@/paginas/item/ItemForm.vue';
+import ItemList from '@/paginas/item/ItemList.vue';
 
 const routes = [
   {
@@ -11,6 +13,24 @@ const routes = [
     path: '/megaform',
     name: 'MegaForm',
     component: MegaForm,
+  },
+  {
+    path: '/item',
+    name: 'Item',
+    children: [
+      {
+        path: '/item/lista',
+        component: ItemList
+      },
+      {
+        path: '/item/novo',
+        component: ItemForm
+      },
+      {
+        path: '/item/editar/{id}',
+        component: ItemForm
+      }
+    ]
   },
   // Adicione suas rotas aqui
 ];
