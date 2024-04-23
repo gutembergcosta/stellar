@@ -3,7 +3,7 @@
 	<div class="topo d-flex justify-content-between">
 		<div class="">
 			<div>
-				<button id="btn-action-sidebar" class="openbtn" action="close" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>  
+				<button id="btn-action-sidebar02" class="openbtn" action="close" @click="teste()"><i class="fa-solid fa-bars"></i></button>  
 			</div>
 		</div>
 		<div class="avatar-area">
@@ -24,6 +24,30 @@
 	</div>
 </div>   
 </template>
+
+<script setup>
+
+  import {ref} from 'vue';
+
+  const action = ref("close");
+
+  const teste = () => {
+    if(action.value == 'close'){closeNav();} else{openNav();}
+  }
+
+  const openNav = () => {
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    action.value = 'close'
+  }
+  
+  const closeNav = () => {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    action.value = 'open'
+  }
+
+</script>
 
 <style scoped>
 	.topo{
