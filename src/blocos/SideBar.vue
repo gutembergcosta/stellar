@@ -1,15 +1,11 @@
 <template>
   <div id="mySidebar" class="sidebar">
     <ul class="side-navbar">
-      <li><a class="accordion-link" id="link-item01" @click="teste('item01')">Section 1</a></li>
+      <li><a class="url-link"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
+      
+      <li><a class="accordion-link url-link" id="link-item01" @click="teste('item01')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
       <div class="painel-navbar sub-navbar item01">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.</p>
-      </div>
-      <li><a class="accordion-link" id="link-item02" @click="teste('item02')">Section 2</a></li>
-      <div class="painel-navbar sub-navbar item02">
-        <ul>
+        <ul class="sub-nav">
           <li><a>asdfadsf</a></li>
           <li><a>asdfadsf</a></li>
           <li><a>asdfadsf</a></li>
@@ -17,11 +13,25 @@
           <li><a>asdfadsf</a></li>
         </ul>
       </div>
-      <li><a class="accordion-link" id="link-item03" @click="teste('item03')">Section 3</a></li>
+      <li><a class="accordion-link url-link" id="link-item02" @click="teste('item02')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
+      <div class="painel-navbar sub-navbar item02">
+        <ul class="sub-nav">
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+        </ul>
+      </div>
+      <li><a class="accordion-link url-link" id="link-item03" @click="teste('item03')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
       <div class="painel-navbar sub-navbar item03">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.</p>
+        <ul class="sub-nav">
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+        </ul>
       </div>
     </ul>
   </div>
@@ -53,80 +63,102 @@ const teste = (subNav) => {
 }
 
 const closeDropDown = (painel) => {
-  let elements = document.querySelectorAll('.accordion-link');
-  elements.forEach(function(element) {
-    if (element.classList.contains('active')) {
-      element.classList.remove('active');
-    }
-  });
-
+  var siblingElement = painel.previousElementSibling;
+  siblingElement.classList.remove('active');
   painel.style.maxHeight = null;
 }
 
 const openDropDown = (painel) => {
-  alert(linkBase.value);
-  let element = document.getElementById(linkBase.value);
-  element.classList.add('active');
-  
-  painel.classList.add('active');
+  var siblingElement = painel.previousElementSibling;
+  siblingElement.classList.add('active');
   painel.style.maxHeight = painel.scrollHeight + "px";
 }
 
 </script>
 
-
 <style scoped sass>
 
 .side-navbar{
   width: 100%;
-  background: red;
   margin: 0;
   padding: 0;
 
-  .accordion-link {
-    background-color: blue;
+  .url-link {
     display: flex;
+    border-left: 5px solid #3c8dbc;
     justify-content:space-between;
-    color: #444;
+    color: #b8c7ce;
     cursor: pointer;
-    padding: 18px;
+    text-decoration: none;
+    padding: 12px 15px;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
     font-size: 15px;
     transition: 0.4s;
+    
+    .fa{margin-right: 8px;}
   }
 
+  
   .active {
-    background-color: #0d816e;
+    .url-link {
+      background-color: #1e282c;
+      border-left: 5px solid #3c8dbc;
+      &:after {
+        content: '\2212';
+        color: #b8c7ce;
+        font-weight: bold;
+        float: right;
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .url-link {
+    &:hover {
+      background-color: #1e282c;
+    }
   }
 
   .accordion-link {
     &:hover {
-      background-color: #831279;
+      background-color: #1e282c;
     }
 
     &:after {
       content: '\002B';
-      color: #bbb01f;
+      color: #b8c7ce;
       font-weight: bold;
       float: right;
       margin-left: 5px;
     }
   }
 
-  .active:after {
-    content: "\2212";
-  }
-
   .painel-navbar {
-    padding: 0 18px;
-    background-color: white;
+    background-color: #2c3b41;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
 }
+
+.sub-nav{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.sub-nav  a{
+  color: #8aa4af!important;
+  padding: 9px 5px 9px 20px;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+.sub-nav  a:hover{
+  color: #fff!important;
+}
+
 
 </style>
