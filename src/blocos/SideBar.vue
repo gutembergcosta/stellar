@@ -79,7 +79,7 @@ const openDropDown = (painel) => {
 <style scoped sass>
 
 .side-navbar{
-  width: 100%;
+  width: 250px;
   margin: 0;
   padding: 0;
 
