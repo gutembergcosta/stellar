@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MegaForm from '@/paginas/MegaForm.vue';
 import ItemForm from '@/paginas/item/ItemForm.vue';
 import ItemList from '@/paginas/item/ItemList.vue';
+import LoginPage from '@/paginas/auth/LoginPage.vue';
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     path: '/megaform',
     name: 'MegaForm',
     component: MegaForm,
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage,
   },
   {
     path: '/item',
