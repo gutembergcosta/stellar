@@ -6,6 +6,7 @@
       <TituloPage/>
       <div class="row">
         <div class="col-md-9">
+          <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />
           <CardBase titulo="Formulário">
               <form>
                 <div class="row">
@@ -73,8 +74,11 @@
   </div>
   <FooterPage/>
 </template>
-  
-<script>
+  showErros.value = false;
+  if (response.status === 422) {
+    erros.value = response.data.errors;
+    showErros.value = true;
+  }
 
 </script>
   
