@@ -1,64 +1,73 @@
 <template>
-	<SideBar/>
+  <SideBar />
   <div class="main" id="main">
-    <TopoDefault/>
+    <TopoDefault />
     <div class="container area-admin">
-      <TituloPage/>
+      <TituloPage />
       <div class="row">
         <div class="col-md-12">
+          <div class="mb-3">
+            <a href="novo" class="btn btn-primary">Adicionar Novo</a>
+          </div>
           <CardBase titulo="Lista">
-            <table class="table">
+            
+            <table class="table" if="lista.length > 0">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th style="width: 130px" scope="col">Actions</th>
+                  <th style="width: 30px" >ID</th>
+                  <th scope="col">Nome</th>
+                  <th style="width: 50px" scope="col"></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>John Doe</td>
-                  <td>john@example.com</td>
+                <tr v-for="(item, index) in lista" :key="index">
+                  <th scope="row">{{ item.id }}</th>
+                  <td> <a :href="'editar/' + item.id">{{ item.nome }}</a> </td>
                   <td>
-                    <button class="btn btn-sm btn-primary me-2">Edit</button>
-                    <button class="btn btn-sm btn-danger">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jane Smith</td>
-                  <td>jane@example.com</td>
-                  <td>
-                    <button class="btn btn-sm btn-primary me-2">Edit</button>
-                    <button class="btn btn-sm btn-danger">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Michael Johnson</td>
-                  <td>michael@example.com</td>
-                  <td>
-                    <button class="btn btn-sm btn-primary me-2">Edit</button>
-                    <button class="btn btn-sm btn-danger">Delete</button>
+                    <button @click.prevent=deletar(item.id) class="btn btn-sm btn-danger">Delete</button>
                   </td>
                 </tr>
               </tbody>
             </table>
-          </CardBase>        
+          </CardBase>
         </div>
       </div>
     </div>
   </div>
-  <FooterPage/>
+  <FooterPage />
 </template>
-  
-<script>
 
+<!--
+
+  
+-->
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+import { DataModelService } from "@/services/DataModelService";
+
+
+const dataModelService = new DataModelService();
+
+const lista = ref([]);
+const urlDelete = 'item/delete';
+
+const deletar = async(id) => {
+  if (confirm("Deseja realmente excluir este item!") == true) {
+    await dataModelService.delete(`/${urlDelete}/${id}`);
+    alert('Item excluído com sucesso');
+    listar();
+  }
+};
+
+const listar = async () => {
+  lista.value = await dataModelService.get('item/list');
+}
+
+onMounted(async () => {
+  listar();
+});
 </script>
-  
-<style scoped>
 
-</style>
-  
+<style scoped></style>@/services/DataModelService

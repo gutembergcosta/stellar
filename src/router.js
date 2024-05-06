@@ -26,15 +26,18 @@ const routes = [
     children: [
       {
         path: '/item/lista',
-        component: ItemList
+        component: ItemList,
+        name: 'Itens',
       },
       {
         path: '/item/novo',
-        component: ItemForm
+        component: ItemForm,
+        name: 'Adicionar novo Item',
       },
       {
-        path: '/item/editar/{id}',
-        component: ItemForm
+        path: '/item/editar/:id',
+        component: ItemForm,
+        name: 'Editar Item',
       }
     ]
   },
