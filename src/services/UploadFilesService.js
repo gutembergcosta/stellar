@@ -13,7 +13,7 @@ class UploadFilesService {
     formData.append("tipo", tipo);
     formData.append("ref", tkn);
 
-    return http.post("/arquivo", formData, {
+    return http.post("/arquivos/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       },
@@ -22,7 +22,11 @@ class UploadFilesService {
   }
 
   list(tipo,tkn) {
-    return http.get(`/arquivos/${tipo}/${tkn}`);
+    return http.get(`/arquivos/list/${tipo}/${tkn}`);
+  }
+  
+  get(tipo,tkn) {
+    return http.get(`/arquivos/get/${tipo}/${tkn}`);
   }
   
 }

@@ -6,7 +6,7 @@
 				<label class="btn btn-primary rounded-0">
 					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf"
 						:disabled="selectedFiles" hidden />
-					<div class="va-button__content">Upload</div>
+					<div class="va-button__content"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</div>
 				</label>
 			</div>
 			<div v-if="errorMessages">
@@ -121,7 +121,7 @@
 
 	const listArquivos = () => {
 		UploadService.list(props.tipo, props.tkn).then((response) => {
-				fileInfos.value = response?.data?.data;
+				fileInfos.value = response?.data;
 		});
 	};
 
