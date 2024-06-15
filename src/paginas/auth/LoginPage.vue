@@ -25,6 +25,7 @@
 <script setup>
 import { ref } from "vue";
 import { DataModelService } from "@/services/DataModelService";
+import router from "@/router";
 
 const dataModelService = new DataModelService();
 const showErros = ref(false);
@@ -47,12 +48,11 @@ const sendForm = async () => {
 
   if (response.status === 200 && response.data != 'Unauthorised') {
 
-    console.log(response.data)
+    localStorage.setItem('authToken', response.data.token);
+    localStorage.setItem('userData', response.data.userData);
 
-    localStorage.setItem('authToken', response.data.token)
-    localStorage.setItem('userData', response.data.userData)
+    router.push('/item/lista');
 
-    window.location.href = "/item/lista"
   } else {
     alert('Login inválido')
   }

@@ -7,10 +7,9 @@
       <div class="row">
         <div class="col-md-9">
           <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />
-          <CardBase titulo="Formulário">
-            <form autocomplete="off" @submit.prevent="sendForm">
+          <form autocomplete="off" @submit.prevent="sendForm">
+            <CardBase titulo="Formulário">
               <div class="row">
-                
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Nome:</label>
                   <input type="text" class="form-control" v-model="dataForm.nome" placeholder="Enter email">
@@ -32,8 +31,6 @@
                   <label class="form-label">Email:</label>
                   <input type="email" class="form-control" v-model="dataForm.email">
                 </div>
-
-
                 <div class="col-md-12 mb-3">
                   <div class="form-check  mb-3">
                     <label class="form-check-label">
@@ -51,7 +48,6 @@
                     </label>
                   </div>
                 </div>
-
                 <div class="col-md-12 mb-3">
                   <label for="comment">Texto:</label>
                   <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
@@ -60,9 +56,36 @@
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </div>
-            </form>
-          </CardBase>
-          <UploadGaleria v-if="render" tipo="galeria" :tkn="dataForm.ref" infoTxt="Galeria" />
+            </CardBase>
+            <CardBase titulo="Formulário">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Data:</label>
+                  <input type="date" class="form-control" v-model="dataForm02.data" placeholder="Enter email">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Hora:</label>
+                  <MaskInput class="form-control"  v-model="dataForm02.hora" mask="##:##" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Telefone:</label>
+                  <MaskInput class="form-control"  v-model="dataForm02.telefone" mask="(##) #####-####" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Telefone:</label>
+                  <VueNumberFormat class="form-control"
+                    v-model:value="dataForm02.preco" 
+                    :options="{ precision: 2, prefix: 'R$ ', isInteger: true }"
+                  ></VueNumberFormat>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <label class="form-label">ckeditor:</label>
+                  <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                </div>
+              </div>
+            </CardBase>
+            <UploadGaleria v-if="render" tipo="galeria" :tkn="dataForm.ref" infoTxt="Galeria" />
+          </form>
         </div>
         <div class="col-md-3">
           <UploadUnico v-if="render" tipo="destaque" :tkn="dataForm.ref" infoTxt="Imagem destaque" />
@@ -83,6 +106,8 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { DataModelService } from "@/services/DataModelService";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 
 const dataModelService = new DataModelService();
 
@@ -104,6 +129,26 @@ const dataForm = ref({
   email: null,
   texto: null,
 });
+
+const dataForm02 = ref({
+  data: '10/01/2022',
+  telefone: '10/01/2022',
+  hora: '10:00',
+  preco: 'R$ 123,45',
+  texto: '<h1>oi</h1>',
+  number: {
+    decimal: ',',
+    separator: '.',
+    prefix: 'R$ ',
+    precision: 2,
+  },
+});
+
+const editor = ClassicEditor;
+const editorData = ref('<p>Content of the editor.</p>');
+const editorConfig = {};
+
+
 
 const itemId = route.params.id;
 

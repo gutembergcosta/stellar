@@ -1,14 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MegaForm from '@/paginas/MegaForm.vue';
+import HomePage from '@/paginas/HomePage.vue';
 import ItemForm from '@/paginas/item/ItemForm.vue';
 import ItemList from '@/paginas/item/ItemList.vue';
 import LoginPage from '@/paginas/auth/LoginPage.vue';
+
+const pasta = process.env.VUE_APP_PASTA;
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: MegaForm,
+    component: HomePage,
   },
   {
     path: '/megaform',
@@ -44,9 +47,12 @@ const routes = [
   // Adicione suas rotas aqui
 ];
 
+
+
 const router = createRouter({
   mode: 'history',
-  history: createWebHistory(),
+  history: createWebHistory(pasta),
+  base: pasta,
   routes,
 });
 
@@ -56,7 +62,7 @@ router.beforeEach(async (to) => {
   const auth = localStorage.getItem('authToken');
 
   if (authRequired && !auth) {
-      return '/login';
+    return '/login';
   }
 });
 
