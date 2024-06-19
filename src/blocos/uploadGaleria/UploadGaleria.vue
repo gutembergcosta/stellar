@@ -1,33 +1,3 @@
-<template>
-	<CardBase titulo="Upload Galeria">
-		<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
-		<div>
-			<div class="mb-3">
-				<label class="btn btn-primary rounded-0">
-					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf"
-						:disabled="selectedFiles" hidden />
-					<div class="va-button__content"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</div>
-				</label>
-			</div>
-			<div v-if="errorMessages">
-				<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show"
-					role="alert">
-					{{ item.texto }}
-					<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close"
-						@click=removeErrorMsg(item)>
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-			</div>
-			<div class="mb-3" v-if="progressInfos">
-				<div class="progress mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
-					<div class="progress-bar" :style="{ width: progressInfo.percentage + '%' }">{{progressInfo.percentage }}%</div>
-				</div>
-			</div>
-			<GaleriaUploads @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos" />
-		</div>
-	</CardBase>
-</template>
 
 <script setup >
 	import { ref, onMounted , defineProps} from 'vue';
@@ -89,7 +59,7 @@
 			progressInfos.value[idx].percentage = Math.round(100 * event.loaded / event.total);
 		})
 			.then(() => {
-				let totaluploaded = ++uploaded.value
+				let totaluploaded = uploaded.value++
 				if (totaluploaded == qteImages.value) {
 					listArquivos();
 					clearFile();
@@ -112,10 +82,9 @@
 
 			})
 			.finally(() => {
-				selectFile.value = null;
-				listArquivos();
-				clearFile();
-
+				//selectFile.value = null;
+				//listArquivos();
+				
 			})
 	};
 
@@ -168,6 +137,38 @@
     });
 
 </script>
+
+<template>
+	<CardBase titulo="Upload Galeria">
+		<p if="infoTxt" class="card-description">{{ infoTxt }} </p>
+		<div>
+			<div class="mb-3">
+				<label class="btn btn-primary rounded-0">
+					<input type="file" multiple ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf"
+						:disabled="selectedFiles" hidden />
+					<div class="va-button__content"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</div>
+				</label>
+			</div>
+			<div v-if="errorMessages">
+				<div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show"
+					role="alert">
+					{{ item.texto }}
+					<button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close"
+						@click=removeErrorMsg(item)>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<div class="mb-3" v-if="progressInfos">
+				<div class="progress mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
+					<div class="progress-bar" :style="{ width: progressInfo.percentage + '%' }">{{progressInfo.percentage }}%</div>
+				</div>
+			</div>
+			<GaleriaUploads @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos" />
+		</div>
+	</CardBase>
+</template>
+
 
 <style scoped>
 .btn-upload {

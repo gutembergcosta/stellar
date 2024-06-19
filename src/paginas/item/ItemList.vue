@@ -51,18 +51,17 @@ import { DataModelService } from "@/services/DataModelService";
 const dataModelService = new DataModelService();
 
 const lista = ref([]);
-const urlDelete = 'item/delete';
 
 const deletar = async(id) => {
   if (confirm("Deseja realmente excluir este item!") == true) {
-    await dataModelService.delete(`/${urlDelete}/${id}`);
+    await dataModelService.delete(`/item/${id}`);
     alert('Item excluído com sucesso');
     listar();
   }
 };
 
 const listar = async () => {
-  lista.value = await dataModelService.get('item/list');
+  lista.value = await dataModelService.get('item');
 }
 
 onMounted(async () => {
