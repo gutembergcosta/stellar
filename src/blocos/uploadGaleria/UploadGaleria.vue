@@ -66,8 +66,6 @@
 				}
 			})
 			.catch((error) => {
-
-				alert('erro');
 				console.log('error');
 				console.log(error);
 				let errorMsg = error.response.data.fileName + ' - ' + error.response.data.errors.arquivo;
@@ -84,7 +82,6 @@
 			.finally(() => {
 				//selectFile.value = null;
 				//listArquivos();
-				
 			})
 	};
 
