@@ -13,6 +13,7 @@ import ModalBase from '@/blocos/ModalBase.vue';
 import PreLoader from '@/blocos/PreLoader.vue';
 import Bs5Carousel from '@/blocos/Bs5Carousel.vue';
 import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
+import LogOut from '@/blocos/LogOut.vue';
 import UploadUnico from '@/blocos/uploadArquivo/UploadUnico.vue';
 import { MaskInput } from 'vue-3-mask';
 import VueNumberFormat from 'vue-number-format'
@@ -39,6 +40,7 @@ app.component('MaskInput', MaskInput);
 app.component('SliderPrincipal', SliderPrincipal);
 app.component('PreLoader', PreLoader);
 app.component('Bs5Carousel', Bs5Carousel);
+app.component('LogOut', LogOut);
 
 app.use(router);
 app.use( CKEditor );

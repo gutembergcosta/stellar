@@ -10,7 +10,7 @@
 			<div class="d-flex justify-content-end">
 				<div class="dropdown">
 					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="https://randomuser.me/api/portraits/women/5.jpg" class="avatar-topo rounded-circle mr-2" />
+						<img :src="require('@/assets/img/user.png')" class="avatar-topo rounded-circle mr-2" />
 						<span class="avatar-usernome">Nome do usuário</span>
 					</button>
 					<ul class="dropdown-menu">
@@ -18,7 +18,8 @@
 						<li><a class="dropdown-item" href="#">Another action</a></li>
 						<li><a class="dropdown-item" href="#">Something else here</a></li>
 					</ul>
-				</div>				
+				</div>	
+        <LogOut/>
 			</div>
 		</div>
 	</div>
@@ -26,6 +27,8 @@
 </template>
 
 <script setup>
+
+//<img class="mx-auto d-block" :src="require('@/assets/img/preloader.svg')" alt="Description">
 
   import {ref} from 'vue';
 

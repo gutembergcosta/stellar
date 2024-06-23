@@ -1,24 +1,11 @@
-<template>
-		<div v-if="fileInfos.length >0" class="row " :options="optionsFancyBox">
-			<div class="col-md-3  mb-3" v-for="(item, index) in fileInfos" :key="index">
-				<div>
-					<a :href="item?.url_max" data-fancybox="gallery">
-						<img :src="item?.url_square" alt="" class="w-100">
-					</a>
-				</div>
-				<div class="d-flex justify-content-center">
-					<button class="btn-upload-close" @click.prevent=deletarImg(item)>
-						<i class="fa-solid fa-circle-xmark"></i>
-					</button>
-				</div>
-			</div>
-		</div>
-</template>
-  
+ 
 <script>
 
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
+import { DataModelService } from "@/services/DataModelService";
+
+const dataModelService = new DataModelService();
 
 export default {
 	name: "galeria-uploads",
@@ -76,8 +63,11 @@ export default {
 		},
 		//enviarMensagemParaPai() {
 		deletarImg(item) {
-			// Emite um evento personalizado chamado 'send-file-to-parent'
-			this.$emit('send-file-to-parent', item);
+			const response = dataModelService.delete(`arquivos/${item.id}`);
+      console.log(response.status)
+
+      this.$emit('send-file-to-parent', item);
+			
 		},
 	
 		initFancybox() {
@@ -91,10 +81,26 @@ export default {
 
 	},
 
-
-
 };
 </script>
+
+<template>
+		<div v-if="fileInfos.length >0" class="row " :options="optionsFancyBox">
+			<div class="col-md-3  mb-3" v-for="(item, index) in fileInfos" :key="index">
+				<div>
+					<a :href="item?.url_max" data-fancybox="gallery">
+						<img :src="item?.url_square" alt="" class="w-100">
+					</a>
+				</div>
+				<div class="d-flex justify-content-center">
+					<button class="btn-upload-close" @click.prevent=deletarImg(item)>
+						<i class="fa-solid fa-circle-xmark"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+</template>
+ 
 
 <style scoped>
 

@@ -51,6 +51,14 @@ body {
   .principal{
     width: calc(100% -230);
   }
+
+  .ck-editor__editable {
+    min-height: 250px;
+   }
+
+  .ck-powered-by{
+    display: none;
+  }
   
   @media screen and (min-width: 901px) {
     .sidebar {

@@ -1,3 +1,94 @@
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { DataModelService } from "@/services/DataModelService";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+
+const dataModelService = new DataModelService();
+
+import { uniqid } from '@/helpers/uniqid.js';
+
+const route = useRoute();
+const router = useRouter();
+
+const showPreloader = ref(true);
+
+/* Dados cadastrais */
+
+const erros = ref([]);
+const showErros = ref(false);
+const render = ref(false);
+const dataForm = ref({
+  ref: uniqid(),
+  nome: null,
+  categoria_id: 0,
+  info: null,
+  email: null,
+  texto: '<p>Content of the editor.</p>',
+});
+
+const dataForm02 = ref({
+  data: '10/01/2022',
+  telefone: '10/01/2022',
+  hora: '10:00',
+  preco: 'R$ 123,45',
+  texto: '<h1>oi</h1>',
+  number: {
+    decimal: ',',
+    separator: '.',
+    prefix: 'R$ ',
+    precision: 2,
+  },
+});
+
+const editor = ClassicEditor;
+const editorConfig = {
+
+};
+
+
+
+const itemId = route.params.id;
+
+/* requests */
+
+onMounted(async () => {
+  if (itemId) {
+    dataForm.value = await dataModelService.get(`item/${itemId}`);
+    console.log(dataForm.value)
+  }
+  render.value = true;
+  showPreloader.value = false;
+});
+
+/* Funções */
+
+const sendForm = async () => {
+
+  showErros.value = false;
+  const response = (itemId) ? await dataModelService.put(`item/save/${itemId}`, dataForm.value) : await dataModelService.post(`item/save`, dataForm.value);
+  console.log(response.status)
+
+  if (response.status === 422) {
+    erros.value = response.data.errors;
+    showErros.value = true;
+  }
+
+  if (response.status === 200 ) {
+    alert(response.data);
+    router.push({ name: "Itens" });
+  }
+
+  if (response.status === 500 ) {
+    alert('Falha ao salvar registro!')
+  }
+
+};
+
+</script>
+
 <template>
   <SideBar />
   <div class="main" id="main">
@@ -79,9 +170,11 @@
                     :options="{ precision: 2, prefix: 'R$ ', isInteger: true }"
                   ></VueNumberFormat>
                 </div>
+                <EditorTexto nameInput="texto"
+                texto="dataForm.texto" /> 
                 <div class="col-md-12 mb-3">
                   <label class="form-label">ckeditor:</label>
-                  <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                  <ckeditor :editor="editor" v-model="dataForm.texto" :config="editorConfig"></ckeditor>
                 </div>
               </div>
             </CardBase>
@@ -103,92 +196,9 @@
 </template>
 
 
-<script setup>
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { DataModelService } from "@/services/DataModelService";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+<style scoped>
 
 
-const dataModelService = new DataModelService();
+</style>
 
-import { uniqid } from '@/helpers/uniqid.js';
-
-const route = useRoute();
-const router = useRouter();
-
-const showPreloader = ref(true);
-
-/* Dados cadastrais */
-
-const erros = ref([]);
-const showErros = ref(false);
-const render = ref(false);
-const dataForm = ref({
-  ref: uniqid(),
-  nome: null,
-  categoria_id: 0,
-  info: null,
-  email: null,
-  texto: null,
-});
-
-const dataForm02 = ref({
-  data: '10/01/2022',
-  telefone: '10/01/2022',
-  hora: '10:00',
-  preco: 'R$ 123,45',
-  texto: '<h1>oi</h1>',
-  number: {
-    decimal: ',',
-    separator: '.',
-    prefix: 'R$ ',
-    precision: 2,
-  },
-});
-
-const editor = ClassicEditor;
-const editorData = ref('<p>Content of the editor.</p>');
-const editorConfig = {};
-
-
-
-const itemId = route.params.id;
-
-/* requests */
-
-onMounted(async () => {
-  if (itemId) {
-    dataForm.value = await dataModelService.get(`item/${itemId}`);
-    console.log(dataForm.value)
-  }
-  render.value = true;
-});
-
-/* Funções */
-
-const sendForm = async () => {
-
-  showErros.value = false;
-  const response = (itemId) ? await dataModelService.put(`item/save/${itemId}`, dataForm.value) : await dataModelService.post(`item/save`, dataForm.value);
-  console.log(response.status)
-
-  if (response.status === 422) {
-    erros.value = response.data.errors;
-    showErros.value = true;
-  }
-
-  if (response.status === 200 ) {
-    alert(response.data);
-    router.push({ name: "Itens" });
-  }
-
-  if (response.status === 500 ) {
-    alert('Falha ao salvar registro!')
-  }
-
-};
-
-</script>
-
-<style scoped></style>
