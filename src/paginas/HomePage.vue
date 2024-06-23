@@ -49,7 +49,7 @@ const calendarOptions = ref({
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage />
+      <TituloPage nome="Título" />
       <div class="row">
         <div class="col-md-12">
           <CardBase titulo="Gráficos">

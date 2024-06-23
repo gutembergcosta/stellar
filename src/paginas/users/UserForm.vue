@@ -72,7 +72,7 @@ const sendForm = async () => {
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage />
+      <TituloPage nome="Título" />
       <div class="row">
         <div class="col-md-8">
           <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />

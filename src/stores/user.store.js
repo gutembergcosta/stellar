@@ -6,9 +6,9 @@ import router from "@/router";
 
 const dataModelService = new DataModelService();
 
-const baseUrl = 'item';
+const baseUrl = 'user';
 
-export const useItemStore = defineStore({
+export const useUserStore = defineStore({
   id: 'users',
   state: () => ({
     showPreloader: true,
@@ -35,7 +35,7 @@ export const useItemStore = defineStore({
         await dataModelService.delete(`${baseUrl}/${id}`);
         this.showPreloader = true;
         this.listar()
-        alert('Item excluído com sucesso');
+        alert('User excluído com sucesso');
       }
     },
     async getById(id) {
@@ -62,7 +62,7 @@ export const useItemStore = defineStore({
         this.showErros = true;
       }
       if (response.status === 200 ) {
-        router.push({ name: "ItemList" });
+        router.push({ name: "UserList" });
       }
       if (response.status === 500 ) {
         alert('Falha ao salvar registro!')

@@ -16,7 +16,7 @@ itemStore.listar();
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage />
+      <TituloPage nome="Lista de usuários" />
       <div class="row">
         <div class="col-md-12">
           <div class="mb-3">
@@ -36,7 +36,7 @@ itemStore.listar();
               <tbody>
                 <tr v-for="(item, index) in lista" :key="index">
                   <th scope="row">{{ item.id }}</th>
-                  <td> <a :href="'item/editar/' + item.id">{{ item.nome }}</a> </td>
+                  <td> <a :href="'editar/' + item.id">{{ item.nome }}</a> </td>
                   <td>
                     <button @click.prevent=itemStore.deletar(item.id) class="btn btn-sm btn-danger">Delete</button>
                   </td>

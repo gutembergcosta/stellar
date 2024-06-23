@@ -11,7 +11,7 @@
 				<div class="dropdown">
 					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<img :src="require('@/assets/img/user.png')" class="avatar-topo rounded-circle mr-2" />
-						<span class="avatar-usernome">Nome do usuário</span>
+						<span class="avatar-usernome">{{ authStore.userInfo.nome }}</span>
 					</button>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">Action</a></li>
@@ -31,6 +31,8 @@
 //<img class="mx-auto d-block" :src="require('@/assets/img/preloader.svg')" alt="Description">
 
   import {ref} from 'vue';
+  import { useAuthStore } from '@/stores/auth.store';
+  const authStore = useAuthStore();
 
   const action = ref("close");
 

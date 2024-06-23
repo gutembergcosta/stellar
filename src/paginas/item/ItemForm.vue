@@ -3,18 +3,11 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-//import { storeToRefs } from 'pinia';
 import { useItemStore } from '@/stores/item.store';
 
 const itemStore = useItemStore();
 
-//({ item } = storeToRefs(itemStore));
-
 const route = useRoute();
-//const router = useRouter();
-
-/* Dados cadastrais */
-
 
 const dataForm02 = ref({
   data: '10/01/2022',
@@ -47,7 +40,7 @@ itemStore.getById(route.params.id)
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage />
+      <TituloPage nome="Título" />
       <div class="row">
         <div class="col-md-9">
           <AlertaErros v-if="itemStore.showErros" :errosLista="itemStore.erros" scrollToTop='s' />
