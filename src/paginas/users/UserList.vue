@@ -1,29 +1,27 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
 import { DataModelService } from "@/services/DataModelService";
-
-
 const dataModelService = new DataModelService();
 
 const lista = ref([]);
-
+const showPreloader = ref(true);
 
 const deletar = async(id) => {
   if (confirm("Deseja realmente excluir este item!") == true) {
-    await dataModelService.delete(`/item/${id}`);
+    await dataModelService.delete(`/users/${id}`);
     alert('Item excluído com sucesso');
     listar();
   }
 };
 
 const listar = async () => {
-  lista.value = await dataModelService.get('item');
+  lista.value = await dataModelService.get('users');
 }
 
 onMounted(async () => {
   listar();
+  showPreloader.value = false;
 });
 </script>
 
@@ -38,10 +36,9 @@ onMounted(async () => {
           <div class="mb-3">
             <a href="novo" class="btn btn-primary">Adicionar Novo</a>
           </div>
-          <PreLoader v-if="showPreloader" />
-          <CardBase v-if="!showPreloader" titulo="Lista">
-            
-            <table class="table" if="lista.length > 0">
+          <CardBase titulo="Usuários">
+            <PreLoader v-if="showPreloader" />
+            <table v-if="!showPreloader" class="table" if="lista.length > 0">
               <thead>
                 <tr>
                   <th style="width: 30px" >ID</th>

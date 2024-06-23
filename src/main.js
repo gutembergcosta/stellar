@@ -10,6 +10,7 @@ import CardBase from '@/blocos/CardBase.vue';
 import SliderPrincipal from '@/blocos/SliderPrincipal.vue';
 import AlertaErros from '@/blocos/AlertaErros.vue';
 import ModalBase from '@/blocos/ModalBase.vue';
+import PreLoader from '@/blocos/PreLoader.vue';
 import Bs5Carousel from '@/blocos/Bs5Carousel.vue';
 import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
 import UploadUnico from '@/blocos/uploadArquivo/UploadUnico.vue';
@@ -36,6 +37,7 @@ app.component('ModalBase', ModalBase);
 app.component('AlertaErros', AlertaErros);
 app.component('MaskInput', MaskInput);
 app.component('SliderPrincipal', SliderPrincipal);
+app.component('PreLoader', PreLoader);
 app.component('Bs5Carousel', Bs5Carousel);
 
 app.use(router);

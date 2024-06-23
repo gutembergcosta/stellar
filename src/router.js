@@ -1,9 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import MegaForm from '@/paginas/MegaForm.vue';
-import HomePage from '@/paginas/HomePage.vue';
-import ItemForm from '@/paginas/item/ItemForm.vue';
-import ItemList from '@/paginas/item/ItemList.vue';
-import LoginPage from '@/paginas/auth/LoginPage.vue';
 
 const pasta = process.env.VUE_APP_PASTA;
 
@@ -11,17 +6,17 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomePage,
+    component: () => import("@/paginas/HomePage.vue"),
   },
   {
     path: '/megaform',
     name: 'MegaForm',
-    component: MegaForm,
+    component: () => import("@/paginas/MegaForm.vue"),
   },
   {
     path: '/login',
     name: 'LoginPage',
-    component: LoginPage,
+    component: () => import("@/paginas/auth/LoginPage.vue"),
   },
   {
     path: '/item',
@@ -29,25 +24,44 @@ const routes = [
     children: [
       {
         path: '/item/lista',
-        component: ItemList,
+        component: () => import("@/paginas/item/ItemList.vue"),
         name: 'Itens',
       },
       {
         path: '/item/novo',
-        component: ItemForm,
+        component: () => import("@/paginas/item/ItemForm.vue"),
         name: 'Adicionar novo Item',
       },
       {
         path: '/item/editar/:id',
-        component: ItemForm,
+        component: () => import("@/paginas/item/ItemForm.vue"),
         name: 'Editar Item',
       }
     ]
   },
+  {
+    path: '/usuarios',
+    name: 'Users',
+    children: [
+      {
+        path: '/usuarios/lista',
+        component: () => import("@/paginas/users/UserList.vue"),
+        name: 'Usuários',
+      },
+      {
+        path: '/usuarios/novo',
+        component: () => import("@/paginas/users/UserForm.vue"),
+        name: 'Adicionar novo usuários',
+      },
+      {
+        path: '/usuarios/editar/:id',
+        component: () => import("@/paginas/users/UserForm.vue"),
+        name: 'Editar usuários',
+      },
+    ]
+  },
   // Adicione suas rotas aqui
 ];
-
-
 
 const router = createRouter({
   mode: 'history',

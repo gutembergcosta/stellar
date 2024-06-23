@@ -7,7 +7,8 @@
       <div class="row">
         <div class="col-md-9">
           <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />
-          <form autocomplete="off" @submit.prevent="sendForm">
+          <PreLoader v-if="showPreloader" />
+          <form v-if="!showPreloader" autocomplete="off" @submit.prevent="sendForm">
             <CardBase titulo="Formulário">
               <div class="row">
                 <div class="col-md-4 mb-3">
@@ -115,6 +116,8 @@ import { uniqid } from '@/helpers/uniqid.js';
 
 const route = useRoute();
 const router = useRouter();
+
+const showPreloader = ref(true);
 
 /* Dados cadastrais */
 
