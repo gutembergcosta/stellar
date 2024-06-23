@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import { createPinia } from "pinia";
 
 import TopoDefault from '@/blocos/TopoDefault.vue';
 import FooterPage from '@/blocos/FooterPage.vue';
@@ -23,6 +24,8 @@ import '@/assets/estilos.css'
 
 createApp(App).use(router).mount('#app')
 
+const pinia = createPinia();
+
 const app = createApp(App);
 
 // Register the component globally
@@ -44,6 +47,7 @@ app.component('LogOut', LogOut);
 
 app.use(router);
 app.use( CKEditor );
+app.use( pinia );
 app.use(VueNumberFormat, {prefix: 'US$ ', decimal: ',', thousand: '.'})
 
 app.mount('#app');

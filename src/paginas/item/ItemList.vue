@@ -1,30 +1,14 @@
 
 <script setup>
-import { ref, onMounted } from 'vue';
 
-import { DataModelService } from "@/services/DataModelService";
+import { storeToRefs } from 'pinia';
+import { useItemStore } from '@/stores/item.store';
 
+const itemStore = useItemStore();
+const { itemList } = storeToRefs(itemStore);
 
-const dataModelService = new DataModelService();
+itemStore.listar();
 
-const lista = ref([]);
-
-
-const deletar = async(id) => {
-  if (confirm("Deseja realmente excluir este item!") == true) {
-    await dataModelService.delete(`/item/${id}`);
-    alert('Item excluído com sucesso');
-    listar();
-  }
-};
-
-const listar = async () => {
-  lista.value = await dataModelService.get('item');
-}
-
-onMounted(async () => {
-  listar();
-});
 </script>
 
 <template>
@@ -38,10 +22,10 @@ onMounted(async () => {
           <div class="mb-3">
             <a href="novo" class="btn btn-primary">Adicionar Novo</a>
           </div>
-          <PreLoader v-if="showPreloader" />
-          <CardBase v-if="!showPreloader" titulo="Lista">
+          <PreLoader v-if="itemStore.showPreloader" />
+          <CardBase v-if="!itemStore.showPreloader" titulo="Lista">
             
-            <table class="table" if="lista.length > 0">
+            <table class="table" if="itemList.length">
               <thead>
                 <tr>
                   <th style="width: 30px" >ID</th>
@@ -50,11 +34,11 @@ onMounted(async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in lista" :key="index">
+                <tr v-for="(item, index) in itemList" :key="index">
                   <th scope="row">{{ item.id }}</th>
                   <td> <a :href="'editar/' + item.id">{{ item.nome }}</a> </td>
                   <td>
-                    <button @click.prevent=deletar(item.id) class="btn btn-sm btn-danger">Delete</button>
+                    <button @click.prevent=itemStore.deletar(item.id) class="btn btn-sm btn-danger">Delete</button>
                   </td>
                 </tr>
               </tbody>
