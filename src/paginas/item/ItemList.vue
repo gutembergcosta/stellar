@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { useItemStore } from '@/stores/item.store';
 
 const itemStore = useItemStore();
-const { itemList } = storeToRefs(itemStore);
+const { lista } = storeToRefs(itemStore);
 
 itemStore.listar();
 
@@ -25,7 +25,7 @@ itemStore.listar();
           <PreLoader v-if="itemStore.showPreloader" />
           <CardBase v-if="!itemStore.showPreloader" titulo="Lista">
             
-            <table class="table" if="itemList.length">
+            <table class="table" if="lista.length">
               <thead>
                 <tr>
                   <th style="width: 30px" >ID</th>
@@ -34,9 +34,9 @@ itemStore.listar();
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in itemList" :key="index">
+                <tr v-for="(item, index) in lista" :key="index">
                   <th scope="row">{{ item.id }}</th>
-                  <td> <a :href="'editar/' + item.id">{{ item.nome }}</a> </td>
+                  <td> <a :href="'item/editar/' + item.id">{{ item.nome }}</a> </td>
                   <td>
                     <button @click.prevent=itemStore.deletar(item.id) class="btn btn-sm btn-danger">Delete</button>
                   </td>

@@ -20,13 +20,9 @@ const routes = [
   },
   {
     path: '/item',
-    name: 'Item',
+    component: () => import("@/paginas/item/ItemList.vue"),
+    name: 'Iten',
     children: [
-      {
-        path: '/item/lista',
-        component: () => import("@/paginas/item/ItemList.vue"),
-        name: 'Itens',
-      },
       {
         path: '/item/novo',
         component: () => import("@/paginas/item/ItemForm.vue"),

@@ -6,11 +6,13 @@ import router from "@/router";
 
 const dataModelService = new DataModelService();
 
+const baseUrl = 'item';
+
 export const useItemStore = defineStore({
   id: 'users',
   state: () => ({
     showPreloader: true,
-    dataFormList: [],
+    lista: [],
     erros : [],
     showErros : false,
     render : false,
@@ -25,12 +27,12 @@ export const useItemStore = defineStore({
   }),
   actions:{
     async listar(){
-      this.dataFormList = await dataModelService.get('dataForm');
+      this.lista = await dataModelService.get('item');
       this.showPreloader = false;
     },
     async deletar(id){
-      if (confirm("Deseja realmente excluir este dataForm!") == true) {
-        await dataModelService.delete(`/dataForm/${id}`);
+      if (confirm("Deseja realmente excluir este item!") == true) {
+        await dataModelService.delete(`${baseUrl}/${id}`);
         this.showPreloader = true;
         this.listar()
         alert('Item excluído com sucesso');
@@ -39,7 +41,7 @@ export const useItemStore = defineStore({
     async getById(id) {
       if (id) {
         try {
-          this.dataForm = await dataModelService.get(`item/${id}`);
+          this.dataForm = await dataModelService.get(`${baseUrl}/${id}`);
           this.showPreloader = false;
           this.render = true;
         } catch (error) {
@@ -52,7 +54,7 @@ export const useItemStore = defineStore({
 
       this.showErros = false;
       
-      const response = (dataFormId) ? await dataModelService.put(`item/${dataFormId}`, this.dataForm) : await dataModelService.post(`item`, this.dataForm);
+      const response = (dataFormId) ? await dataModelService.put(`${baseUrl}/${dataFormId}`, this.dataForm) : await dataModelService.post(`${baseUrl}`, this.dataForm);
       console.log(response.status)
     
       if (response.status === 422) {
