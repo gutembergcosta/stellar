@@ -16,7 +16,7 @@ itemStore.listar();
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage nome="Lista de usuários" />
+      <TituloPage nome="Lista de itens" />
       <div class="row">
         <div class="col-md-12">
           <div class="mb-3">

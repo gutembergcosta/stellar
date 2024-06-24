@@ -15,7 +15,7 @@ userStore.listar();
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage :nome="userStore.tituloLista" />
+      <TituloPage :nome="userStore.tituloPagina" />
       <div class="row">
         <div class="col-md-12">
           <div class="mb-3">
