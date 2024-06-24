@@ -1,46 +1,9 @@
-<template>
-  <div id="mySidebar" class="sidebar">
-    <ul class="side-navbar">
-      <li><a class="url-link"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
-      
-      <li><a class="accordion-link url-link" id="link-item01" @click="teste('item01')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
-      <div class="painel-navbar sub-navbar item01">
-        <ul class="sub-nav">
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-        </ul>
-      </div>
-      <li><a class="accordion-link url-link" id="link-item02" @click="teste('item02')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
-      <div class="painel-navbar sub-navbar item02">
-        <ul class="sub-nav">
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-        </ul>
-      </div>
-      <li><a class="accordion-link url-link" id="link-item03" @click="teste('item03')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
-      <div class="painel-navbar sub-navbar item03">
-        <ul class="sub-nav">
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-        </ul>
-      </div>
-    </ul>
-  </div>
-</template>
-
 
 <script setup>
 
 import {ref} from 'vue';
+import { useAuthStore } from '@/stores/auth.store';
+const authStore = useAuthStore();
 
 const linkBase = ref("");
 
@@ -75,6 +38,47 @@ const openDropDown = (painel) => {
 }
 
 </script>
+<template>
+  <div id="mySidebar" class="sidebar">
+    <ul class="side-navbar">
+      <li><a class="url-link"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
+      
+      <li><a class="accordion-link url-link" id="link-item01" @click="teste('item01')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
+      <div class="painel-navbar sub-navbar item01">
+        <ul class="sub-nav">
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+        </ul>
+      </div>
+      <li><a class="accordion-link url-link" id="link-item02" @click="teste('item02')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
+      <div class="painel-navbar sub-navbar item02">
+        <ul class="sub-nav">
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+        </ul>
+      </div>
+      
+      <li v-if="authStore.userTipo =='admin'"><a class="accordion-link url-link" id="link-item03" @click="teste('item03')"><span><i class="fa fa-cog"></i>Administrativo</span></a></li>
+      <div v-if="authStore.userTipo =='admin'" class="painel-navbar sub-navbar item03">
+        <ul class="sub-nav">
+          <li><router-link to="/usuarios/lista">Usuários</router-link></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+          <li><a>asdfadsf</a></li>
+        </ul>
+      </div>
+    </ul>
+  </div>
+</template>
+
+
 
 <style scoped sass>
 
@@ -82,6 +86,8 @@ const openDropDown = (painel) => {
   width: 250px;
   margin: 0;
   padding: 0;
+  
+
 
   .url-link {
     display: flex;
@@ -100,7 +106,6 @@ const openDropDown = (painel) => {
     
     .fa{margin-right: 8px;}
   }
-
   
   .active {
     .url-link {
@@ -155,6 +160,7 @@ const openDropDown = (painel) => {
   width: 100%;
   display: block;
   cursor: pointer;
+  text-decoration: none;
 }
 .sub-nav  a:hover{
   color: #fff!important;

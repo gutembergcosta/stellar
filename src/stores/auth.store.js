@@ -16,6 +16,10 @@ export const useAuthStore = defineStore({
       password: null,
     },
   }),
+  getters: {
+    userTipo: (state) => state.userInfo.tipo,
+    userNome: (state) => state.userInfo.nome,
+  },
   actions:{
     async login(){
       

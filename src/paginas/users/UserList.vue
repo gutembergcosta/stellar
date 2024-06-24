@@ -1,28 +1,13 @@
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { DataModelService } from "@/services/DataModelService";
-const dataModelService = new DataModelService();
+import { storeToRefs } from 'pinia';
+import { useUserStore } from '@/stores/user.store';
 
-const lista = ref([]);
-const showPreloader = ref(true);
+const userStore = useUserStore();
+const { lista } = storeToRefs(userStore);
 
-const deletar = async(id) => {
-  if (confirm("Deseja realmente excluir este item!") == true) {
-    await dataModelService.delete(`/users/${id}`);
-    alert('Item excluído com sucesso');
-    listar();
-  }
-};
+userStore.listar();
 
-const listar = async () => {
-  lista.value = await dataModelService.get('users');
-}
-
-onMounted(async () => {
-  listar();
-  showPreloader.value = false;
-});
 </script>
 
 <template>
@@ -30,15 +15,15 @@ onMounted(async () => {
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage nome="Título" />
+      <TituloPage :nome="userStore.tituloLista" />
       <div class="row">
         <div class="col-md-12">
           <div class="mb-3">
             <a href="novo" class="btn btn-primary">Adicionar Novo</a>
           </div>
           <CardBase titulo="Usuários">
-            <PreLoader v-if="showPreloader" />
-            <table v-if="!showPreloader" class="table" if="lista.length > 0">
+            <PreLoader v-if="userStore.showPreloader" />
+            <table v-if="!userStore.showPreloader" class="table" if="lista.length > 0">
               <thead>
                 <tr>
                   <th style="width: 30px" >ID</th>
@@ -47,11 +32,11 @@ onMounted(async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in lista" :key="index">
-                  <th scope="row">{{ item.id }}</th>
-                  <td> <a :href="'editar/' + item.id">{{ item.nome }}</a> </td>
+                <tr v-for="(user, index) in lista" :key="index">
+                  <th scope="row">{{ user.id }}</th>
+                  <td> <a :href="'editar/' + user.id">{{ user.nome }}</a> </td>
                   <td>
-                    <button @click.prevent=deletar(item.id) class="btn btn-sm btn-danger">Delete</button>
+                    <button @click.prevent=deletar(user.id) class="btn btn-sm btn-danger">Delete</button>
                   </td>
                 </tr>
               </tbody>

@@ -11,7 +11,7 @@
 				<div class="dropdown">
 					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<img :src="require('@/assets/img/user.png')" class="avatar-topo rounded-circle mr-2" />
-						<span class="avatar-usernome">{{ authStore.userInfo.nome }}</span>
+						<span class="avatar-usernome">{{ authStore.userNome }}</span>
 					</button>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">Action</a></li>

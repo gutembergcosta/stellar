@@ -45,17 +45,17 @@ const routes = [
       {
         path: '/usuarios/lista',
         component: () => import("@/paginas/users/UserList.vue"),
-        name: 'Usuários',
+        name: 'UserList',
       },
       {
         path: '/usuarios/novo',
         component: () => import("@/paginas/users/UserForm.vue"),
-        name: 'Adicionar novo usuários',
+        name: 'UserAdd',
       },
       {
         path: '/usuarios/editar/:id',
         component: () => import("@/paginas/users/UserForm.vue"),
-        name: 'Editar usuários',
+        name: 'UserEdit',
       },
     ]
   },

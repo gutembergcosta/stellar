@@ -1,69 +1,18 @@
 
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { DataModelService } from "@/services/DataModelService";
+import { useRoute } from "vue-router";
+import ModalUpdatePassword from './ModalUpdatePassword.vue'; // Adjust the path as needed
 
-const dataModelService = new DataModelService();
+import { useUserStore } from '@/stores/user.store';
 
-import { uniqid } from '@/helpers/uniqid.js';
+const userStore = useUserStore();
 
 const route = useRoute();
-const router = useRouter();
 
-/* Dados cadastrais */
+userStore.getById(route.params.id)
 
-const erros = ref([]);
-const showErros = ref(false);
-const showPreloader = ref(true);
-
-const dataForm = ref({
-  ref: uniqid(),
-  nome: null,
-  password: null,
-  email: null,
-});
-
-
-
-
-
-const itemId = route.params.id;
-
-/* requests */
-
-onMounted(async () => {
-  if (itemId) {
-    dataForm.value = await dataModelService.get(`item/${itemId}`);
-    showPreloader.value = false;
-  }
-
-});
-
-/* Funções */
-
-const sendForm = async () => {
-
-  showErros.value = false;
-  const response = (itemId) ? await dataModelService.put(`users/${itemId}`, dataForm.value) : await dataModelService.post(`users`, dataForm.value);
-  console.log(response.status)
-
-  if (response.status === 422) {
-    erros.value = response.data.errors;
-    showErros.value = true;
-  }
-
-  if (response.status === 200 ) {
-    alert(response.data);
-    router.push({ name: "Usuários" });
-  }
-
-  if (response.status === 500 ) {
-    alert('Falha ao salvar registro!')
-  }
-
-};
+userStore.action = 'password'
 
 </script>
 
@@ -72,32 +21,35 @@ const sendForm = async () => {
   <div class="main" id="main">
     <TopoDefault />
     <div class="container area-admin">
-      <TituloPage nome="Título" />
+      <TituloPage :nome="userStore.tituloForm" />
       <div class="row">
-        <div class="col-md-8">
-          <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />
-          <PreLoader v-if="showPreloader" />
-          <form autocomplete="off" @submit.prevent="sendForm" v-if="!showPreloader">
+        <div class="col-md-8 offset-md-2">
+          <AlertaErros v-if="userStore.showErros" :errosLista="userStore.erros" scrollToTop='s' />
+          <PreLoader v-if="userStore.showPreloader" />
+          <form autocomplete="off" @submit.prevent="userStore.save" v-if="!userStore.showPreloader">
             <CardBase titulo="Formulário">
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Nome:</label>
-                  <input type="text" class="form-control" v-model="dataForm.nome" >
+                  <input type="text" class="form-control" v-model="userStore.dataForm.nome" >
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Email:</label>
-                  <input type="email" class="form-control" v-model="dataForm.email">
+                  <input type="email" class="form-control" v-model="userStore.dataForm.email">
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3" v-if="userStore.tipoForm == 'add'">
                   <label class="form-label">Password:</label>
-                  <input type="text" class="form-control" v-model="dataForm.password" >
+                  <input type="text" class="form-control" v-model="userStore.dataForm.password" >
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 d-flex justify-content-between">
                   <button type="submit" class="btn btn-primary">Salvar</button>
+                  <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Alterar senha</button>
                 </div>
               </div>
             </CardBase>
           </form>
+          <ModalUpdatePassword :userId="route.params.id" />
         </div>
       </div>
     </div>
