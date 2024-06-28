@@ -20,7 +20,7 @@ itemStore.listar();
       <div class="row">
         <div class="col-md-12">
           <div class="mb-3">
-            <a href="novo" class="btn btn-primary">Adicionar Novo</a>
+            <a @click="itemStore.novo" class="btn btn-primary">Adicionar Novo</a>
           </div>
           <PreLoader v-if="itemStore.showPreloader" />
           <CardBase v-if="!itemStore.showPreloader" titulo="Lista">

@@ -20,6 +20,7 @@ import { MaskInput } from 'vue-3-mask';
 import VueNumberFormat from 'vue-number-format'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
+
 import '@/assets/estilos.css'
 
 createApp(App).use(router).mount('#app')

@@ -14,18 +14,13 @@ export const useUserStore = defineStore({
     showPreloader: false,
     lista: [],
     erros : [],
-    errosUpdatePassword : [],
-    showErrosUpdatePassword : false,
     showErros : false,
-    tipoForm : 'add',
-    tituloPagina: 'Lista de usuários',
     dataForm : {
       ref: uniqid(),
       nome: null,
-      categoria_id: 0,
-      info: null,
+      password: null,
       email: null,
-      texto: '<p>Content of the editor.</p>',
+      nova_senha: null,
     },
     dataSenha: { 
       userId: null,
@@ -40,10 +35,9 @@ export const useUserStore = defineStore({
     },
     async deletar(id){
       if (confirm("Deseja realmente excluir este item!") == true) {
-        this.showPreloader = true;
         await dataModelService.delete(`${baseUrl}/${id}`);
         this.listar()
-        alert('User excluído com sucesso');
+        alert('Item excluído com sucesso');
       }
     },
     async getById(id) {
@@ -52,26 +46,21 @@ export const useUserStore = defineStore({
           this.showPreloader = true;
           this.dataForm = await dataModelService.get(`${baseUrl}/${id}`);
           this.showPreloader = false;
-          this.tituloForm = 'Editar usuário';
-          this.tipoForm = 'editar';
+          this.render = true;
         } catch (error) {
           alert('erro getById()')
         }
-      }else{
-        this.tituloForm = 'Adicionar novo usuário'
       }
     },
+
     async save(){
+
+      this.showPreloader = true;
       const dataFormId = this.dataForm.id ?? null;
-
-      const urlUpdate = `${baseUrl}/${dataFormId}` ;
-
-      alert(urlUpdate);
 
       this.showErros = false;
       
-      const response = (dataFormId) ? await dataModelService.put(urlUpdate, this.dataForm) : await dataModelService.post(`${baseUrl}`, this.dataForm);
-      
+      const response = (dataFormId) ? await dataModelService.put(`${baseUrl}/${dataFormId}`, this.dataForm) : await dataModelService.post(`${baseUrl}`, this.dataForm);
       console.log(response.status)
     
       if (response.status === 422) {
@@ -79,19 +68,19 @@ export const useUserStore = defineStore({
         this.showErros = true;
       }
       if (response.status === 200 ) {
-        router.push({ name: "UserList" });
+        router.push({ name: "ItemList" });
       }
       if (response.status === 500 ) {
         alert('Falha ao salvar registro!')
       }
+      this.showPreloader = false;
     },
+
     async savePassword(){
    
       const dataFormId = this.dataSenha.userId;
 
       const urlUpdate =  `acesso/${dataFormId}` ;
-
-      alert(urlUpdate);
 
       this.showErrosUpdatePassword = false;
       
@@ -104,13 +93,26 @@ export const useUserStore = defineStore({
         this.errosUpdatePassword = response.data.errors;
       }
       if (response.status === 200 ) {
-        alert('deu certo');
-        //router.push({ name: "UserList" });
+        alert('Senha alterada com sucesso');
+        this.closeModal();
+        this.dataSenha = { 
+          userId: null,
+          nova_senha : null
+        }
       }
       if (response.status === 500 ) {
         alert('Falha ao salvar registro!')
       }
     },
+
+    novo(){
+      router.push({ name: "UserAdd" });
+    },
+
+    closeModal() {
+      const modalElement = document.getElementById('closeModalPassword');
+      modalElement.click();
+    }
   },
   
 });

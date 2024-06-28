@@ -9,9 +9,9 @@ const dataModelService = new DataModelService();
 const baseUrl = 'item';
 
 export const useItemStore = defineStore({
-  id: 'users',
+  id: 'item',
   state: () => ({
-    showPreloader: true,
+    showPreloader: false,
     lista: [],
     erros : [],
     showErros : false,
@@ -27,13 +27,13 @@ export const useItemStore = defineStore({
   }),
   actions:{
     async listar(){
+      this.showPreloader = true;
       this.lista = await dataModelService.get(baseUrl);
       this.showPreloader = false;
     },
     async deletar(id){
       if (confirm("Deseja realmente excluir este item!") == true) {
         await dataModelService.delete(`${baseUrl}/${id}`);
-        this.showPreloader = true;
         this.listar()
         alert('Item excluído com sucesso');
       }
@@ -41,6 +41,7 @@ export const useItemStore = defineStore({
     async getById(id) {
       if (id) {
         try {
+          this.showPreloader = true;
           this.dataForm = await dataModelService.get(`${baseUrl}/${id}`);
           this.showPreloader = false;
           this.render = true;
@@ -50,6 +51,7 @@ export const useItemStore = defineStore({
       }
     },
     async save(){
+      this.showPreloader = true;
       const dataFormId = this.dataForm.id ?? null;
 
       this.showErros = false;
@@ -67,7 +69,11 @@ export const useItemStore = defineStore({
       if (response.status === 500 ) {
         alert('Falha ao salvar registro!')
       }
+      this.showPreloader = false;
     },
+    novo(){
+      router.push({ name: "ItemAdd" });
+    }
   },
   
 });

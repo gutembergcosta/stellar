@@ -19,7 +19,7 @@ userStore.listar();
       <div class="row">
         <div class="col-md-12">
           <div class="mb-3">
-            <a href="novo" class="btn btn-primary">Adicionar Novo</a>
+            <a @click="userStore.novo" class="btn btn-primary">Adicionar Novo</a>
           </div>
           <CardBase titulo="Usuários">
             <PreLoader v-if="userStore.showPreloader" />

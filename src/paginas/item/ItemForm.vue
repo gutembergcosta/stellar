@@ -1,6 +1,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useItemStore } from '@/stores/item.store';
@@ -31,7 +32,11 @@ const editorConfig = {
 
 itemStore.getById(route.params.id)
 
-
+const { 
+  erros, 
+  showPreloader,
+  dataForm,
+} = storeToRefs(itemStore);
 
 </script>
 
@@ -43,22 +48,22 @@ itemStore.getById(route.params.id)
       <TituloPage nome="Título" />
       <div class="row">
         <div class="col-md-9">
-          <AlertaErros v-if="itemStore.showErros" :errosLista="itemStore.erros" scrollToTop='s' />
-          <PreLoader v-if="itemStore.showPreloader" />
-          <form v-if="!itemStore.showPreloader" autocomplete="off" @submit.prevent="itemStore.save">
+          <AlertaErros v-if="erros.length" :errosLista="erros" scrollToTop='s' />
+          <PreLoader v-if="showPreloader" />
+          <form v-if="!showPreloader" autocomplete="off" @submit.prevent="itemStore.save">
             <CardBase titulo="Formulário">
               <div class="row">
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Nome:</label>
-                  <input type="text" class="form-control" v-model="itemStore.dataForm.nome" placeholder="Enter email">
+                  <input type="text" class="form-control" v-model="dataForm.nome" placeholder="Enter email">
                 </div>
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Info:</label>
-                  <input type="text" class="form-control" v-model="itemStore.dataForm.info">
+                  <input type="text" class="form-control" v-model="dataForm.info">
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="pwd" class="form-label">Categoria:</label>
-                  <select class="form-select" v-model="itemStore.dataForm.categoria_id">
+                  <select class="form-select" v-model="dataForm.categoria_id">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -67,7 +72,7 @@ itemStore.getById(route.params.id)
                 </div>
                 <div class="col-md-4 mb-3">
                   <label class="form-label">Email:</label>
-                  <input type="email" class="form-control" v-model="itemStore.dataForm.email">
+                  <input type="email" class="form-control" v-model="dataForm.email">
                 </div>
                 <div class="col-md-12 mb-3">
                   <div class="form-check  mb-3">
@@ -117,18 +122,18 @@ itemStore.getById(route.params.id)
                   ></VueNumberFormat>
                 </div>
                 <EditorTexto nameInput="texto"
-                texto="itemStore.dataForm.texto" /> 
+                texto="dataForm.texto" /> 
                 <div class="col-md-12 mb-3">
                   <label class="form-label">ckeditor:</label>
-                  <ckeditor :editor="editor" v-model="itemStore.dataForm.texto" :config="editorConfig"></ckeditor>
+                  <ckeditor :editor="editor" v-model="dataForm.texto" :config="editorConfig"></ckeditor>
                 </div>
               </div>
             </CardBase>
-            <UploadGaleria v-if="itemStore.render" tipo="galeria" :tkn="itemStore.dataForm.ref" infoTxt="Galeria" />
+            <UploadGaleria v-if="itemStore.render" tipo="galeria" :tkn="dataForm.ref" infoTxt="Galeria" />
           </form>
         </div>
         <div class="col-md-3">
-          <UploadUnico v-if="itemStore.render" tipo="destaque" :tkn="itemStore.dataForm.ref" infoTxt="Imagem destaque" />
+          <UploadUnico v-if="itemStore.render" tipo="destaque" :tkn="dataForm.ref" infoTxt="Imagem destaque" />
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch
             demo modal</button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch

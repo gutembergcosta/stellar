@@ -21,7 +21,7 @@ const saveSenha = () => {
 
 <template>
 	<!-- Button trigger modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div  class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="max-width: 300px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -40,7 +40,7 @@ const saveSenha = () => {
           </form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="closeModalPassword" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-primary" @click="saveSenha" >Salvar nova senha</button>
 				</div>
 			</div>
