@@ -54,6 +54,143 @@ body {
   width: calc(100% -230);
 }
 
+textarea:focus, 
+textarea.form-control:focus, 
+input.form-control:focus, 
+input[type=text]:focus, 
+input[type=password]:focus, 
+input[type=email]:focus, 
+input[type=number]:focus, 
+[type=text].form-control:focus, 
+[type=password].form-control:focus, 
+[type=email].form-control:focus, 
+[type=tel].form-control:focus, 
+[contenteditable].form-control:focus {
+  box-shadow: inset 0 -1px 0 #ddd;
+}
+
+form [type=text],
+form [type=email],
+form [type=url],
+form [type=password],
+form select,
+form textarea,
+.form-select
+{
+  border-radius: 0;
+
+}
+
+form [type=text]:focus,
+form [type=email]:focus,
+form [type=url]:focus,
+form [type=password]:focus,
+form select:focus,
+form textarea:focus,
+form select {
+  border: 1px solid #04002b;
+}
+
+form .blocos-02 .linha {
+  width: 47%;
+}
+
+form .btn_form {
+  font-weight: bold;
+  color: white;
+  border-radius: 0;
+  border: none;
+  margin-top: 18px;
+  background: #5abcfd;
+  padding: 8px 15px !important;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+form label {
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #269abc;
+  border-color: #337ab7;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #398439;
+  border-color: #255625;
+}
+
+.btn-warning {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #ac2925;
+  border-color: #761c19;
+}
+
+.btn {
+  border-radius: 2px;
+  padding: 6px 22px;
+}
+.btn-group-lg > .btn, .btn-lg {
+  padding: 10px 28px;
+}
+.btn-group-sm > .btn, .btn-sm {
+  padding: 5px 18px;
+}
+.btn-group-xs > .btn, .btn-xs {
+  padding: 5px 14px;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #00a0f0;
+  border-color: #00a0f0;
+}
+
+.btn-warning:hover, .btn-warning:focus {
+  background-color: #d6be0f;
+  border-color: #d6be0f;
+}
+.btn-default:hover, .btn-default:focus {
+  background-color: #f7f7f7;
+}
+
+.btn-success:hover, .btn-success:focus {
+  background-color: #3ca512;
+  border-color: #3ca512;
+}
+.btn.disabled, .btn[disabled] {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+fieldset[disabled] .btn {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+form [type=text]:focus, form [type=email]:focus, form [type=url]:focus, form select:focus, form textarea:focus, form select {
+  outline: none;
+  border: 1px solid #04002b;
+}
+
+
+
+
 @media screen and (min-width: 901px) {
   .sidebar {
     width: 250px;

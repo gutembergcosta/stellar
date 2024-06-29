@@ -36,6 +36,7 @@ const {
   erros, 
   showPreloader,
   dataForm,
+  isSubmitting,
 } = storeToRefs(itemStore);
 
 </script>
@@ -96,7 +97,10 @@ const {
                   <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
                 </div>
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary"  :disabled="isSubmitting">
+                    <TextoBtn texto="Salvar" :submitting="isSubmitting" />
+                  
+                  </button>
                 </div>
               </div>
             </CardBase>

@@ -16,6 +16,7 @@ export const useItemStore = defineStore({
     erros : [],
     showErros : false,
     render : false,
+    isSubmitting : false,
     dataForm : {
       ref: uniqid(),
       nome: null,
