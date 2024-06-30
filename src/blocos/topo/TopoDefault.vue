@@ -1,22 +1,20 @@
 <script setup>
 
 import { ref } from 'vue'
-  import { useAuthStore } from '@/stores/auth.store';
-  import CloseSidebar from './CloseSidebar.vue'
-  const authStore = useAuthStore();
+import { useAuthStore } from '@/stores/auth.store';
+import CloseSidebar from './CloseSidebar.vue'
+import TopoSidebar from './TopoSidebar'
+const authStore = useAuthStore();
 
-  const avatarImg = ref(require('@/assets/img/user.png'))
+const avatarImg = ref(require('@/assets/img/user.png'))
 </script>
 
 <template>
-<div class="w-100">
-	<div class="topo d-flex justify-content-between">
-		<div class="">
-			<div>
-				<CloseSidebar/>
-			</div>
-		</div>
-		<div class="avatar-area">
+<div class="w-100 topo d-flex justify-content-between sombra position-fixed">
+  <TopoSidebar/>
+  <div class=" lateral d-flex align-items-center justify-content-between" >
+    <div class=""><CloseSidebar/></div>
+    <div class="avatar-area">
 			<div class="d-flex justify-content-end">
 				<div class="dropdown">
 					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -32,7 +30,7 @@ import { ref } from 'vue'
         <LogOut/>
 			</div>
 		</div>
-	</div>
+  </div>
 </div>   
 </template>
 
@@ -40,9 +38,13 @@ import { ref } from 'vue'
 
 <style scoped>
 	.topo{
-		background: white;
-		height: 60px
+		background: #ffffff;
+		height: 60px;
 	}
+
+  .lateral{
+    width: calc(100% - 250px);
+  }
 	.drop-down-area{
 		z-index: 99999;
 		position: relative;
@@ -52,12 +54,18 @@ import { ref } from 'vue'
 		height: 50px;
 	}
 	.avatar-topo{
-    width: 35px; 
-    height: 35px;
+    width: 30px; 
+    height: 30px;
     margin-right: 6px;
   }
 	.avatar-usernome{
 		color: black;
 		font-weight: 400;
 	}
+  .sombra{
+    border-bottom: 1px solid #eee;
+    box-shadow: 0px 4px 3px -2px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+
+  }
 </style>

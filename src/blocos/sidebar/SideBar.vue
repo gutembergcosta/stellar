@@ -3,7 +3,7 @@
 
 import {ref} from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
-import TopoSidebar from './TopoSidebar'
+
 const authStore = useAuthStore();
 
 const linkBase = ref("");
@@ -41,7 +41,7 @@ const openDropDown = (painel) => {
 </script>
 <template>
   <div id="mySidebar" class="sidebar">
-    <TopoSidebar/>
+
     <ul class="side-navbar">
       <li><a class="url-link"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
       
@@ -88,6 +88,7 @@ const openDropDown = (painel) => {
   width: 250px;
   margin: 0;
   padding: 0;
+  padding-top: 75px;
   
 
 

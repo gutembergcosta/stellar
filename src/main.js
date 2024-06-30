@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router';
 import { createPinia } from "pinia";
 
-import TopoDefault from '@/blocos/TopoDefault.vue';
+import TopoDefault from '@/blocos/topo/TopoDefault.vue';
 import FooterPage from '@/blocos/FooterPage.vue';
-import SideBar from '@/blocos/SideBar.vue';
+import SideBar from '@/blocos/sidebar/SideBar.vue';
 import TituloPage from '@/blocos/TituloPage.vue';
 import CardBase from '@/blocos/CardBase.vue';
 import SliderPrincipal from '@/blocos/SliderPrincipal.vue';
@@ -16,7 +16,7 @@ import PreLoader from '@/blocos/PreLoader.vue';
 import TextoBtn from '@/blocos/TextoBtn.vue';
 import Bs5Carousel from '@/blocos/Bs5Carousel.vue';
 import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
-import LogOut from '@/blocos/LogOut.vue';
+import LogOut from '@/blocos/topo/LogOut.vue';
 import UploadUnico from '@/blocos/uploadArquivo/UploadUnico.vue';
 import { MaskInput } from 'vue-3-mask';
 import VueNumberFormat from 'vue-number-format'

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
 import { uniqid } from '@/helpers/uniqid.js';
+
 import { DataModelService } from "@/services/DataModelService";
 import router from "@/router";
 
@@ -17,6 +18,7 @@ export const useItemStore = defineStore({
     showErros : false,
     render : false,
     isSubmitting : false,
+    picked: null,
     dataForm : {
       ref: uniqid(),
       nome: null,
@@ -52,7 +54,7 @@ export const useItemStore = defineStore({
       }
     },
     async save(){
-      this.showPreloader = true;
+      this.isSubmitting = true;
       const dataFormId = this.dataForm.id ?? null;
 
       this.showErros = false;
@@ -65,12 +67,13 @@ export const useItemStore = defineStore({
         this.showErros = true;
       }
       if (response.status === 200 ) {
+        alert('Item salvo com sucesso');
         router.push({ name: "ItemList" });
       }
       if (response.status === 500 ) {
         alert('Falha ao salvar registro!')
       }
-      this.showPreloader = false;
+      this.isSubmitting = false;
     },
     novo(){
       router.push({ name: "ItemAdd" });

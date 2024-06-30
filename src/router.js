@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import("@/paginas/HomePage.vue"),
+    component: () => import("@/paginas/home/HomePage.vue"),
   },
   {
     path: '/megaform',

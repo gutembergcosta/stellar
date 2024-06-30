@@ -13420,7 +13420,7 @@ ul li, ol li, dl li {
 		display: none;
    }
 }
-.sidebar-icon-only .navbar .navbar-brand-wrapper .navbar-toggler {
+s-icon-only .navbar .navbar-brand-wrapper .navbar-toggler {
 	margin-right: auto;
 	margin-left: auto;
 }

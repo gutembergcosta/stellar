@@ -3,6 +3,7 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useItemStore } from '@/stores/item.store';
 
@@ -37,6 +38,7 @@ const {
   showPreloader,
   dataForm,
   isSubmitting,
+  showErros,
 } = storeToRefs(itemStore);
 
 </script>
@@ -49,7 +51,7 @@ const {
       <TituloPage nome="Título" />
       <div class="row">
         <div class="col-md-9">
-          <AlertaErros v-if="erros.length" :errosLista="erros" scrollToTop='s' />
+          <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />
           <PreLoader v-if="showPreloader" />
           <form v-if="!showPreloader" autocomplete="off" @submit.prevent="itemStore.save">
             <CardBase titulo="Formulário">
@@ -76,17 +78,17 @@ const {
                   <input type="email" class="form-control" v-model="dataForm.email">
                 </div>
                 <div class="col-md-12 mb-3">
-                  <div class="form-check  mb-3">
+                  <div class="form-check">
                     <label class="form-check-label">
                       <input class="form-check-input" type="radio" name="remember"> Remember me
                     </label>
                   </div>
-                  <div class="form-check  mb-3">
+                  <div class="form-check">
                     <label class="form-check-label">
                       <input class="form-check-input" type="radio" name="remember"> Remember me
                     </label>
                   </div>
-                  <div class="form-check  mb-3">
+                  <div class="form-check">
                     <label class="form-check-label">
                       <input class="form-check-input" type="radio" name="remember"> Remember me
                     </label>
