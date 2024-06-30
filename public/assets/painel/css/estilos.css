@@ -25,6 +25,7 @@ body {
   
   #main {
     transition: margin-left .5s;
+    padding-top: 60px;
   }
 
   .area{

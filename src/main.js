@@ -13,6 +13,7 @@ import AlertaErros from '@/blocos/AlertaErros.vue';
 import ModalBase from '@/blocos/ModalBase.vue';
 import CardLogin from '@/blocos/CardLogin.vue';
 import PreLoader from '@/blocos/PreLoader.vue';
+import ListaErros from '@/blocos/ListaErros.vue';
 import TextoBtn from '@/blocos/TextoBtn.vue';
 import Bs5Carousel from '@/blocos/Bs5Carousel.vue';
 import UploadGaleria from '@/blocos/uploadGaleria/UploadGaleria.vue';
@@ -49,6 +50,7 @@ app.component('TextoBtn', TextoBtn);
 app.component('Bs5Carousel', Bs5Carousel);
 app.component('LogOut', LogOut);
 app.component('CardLogin', CardLogin);
+app.component('ListaErros', ListaErros);
 
 app.use(router);
 app.use( CKEditor );

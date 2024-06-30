@@ -30,28 +30,33 @@ const editorConfig = {
 
 };
 
-
 itemStore.getById(route.params.id)
 
 const { 
-  erros, 
   showPreloader,
   dataForm,
   isSubmitting,
+  erros,
+  render,
   showErros,
 } = storeToRefs(itemStore);
+
+alert(dataForm.tkn)
 
 </script>
 
 <template>
+  <TopoDefault />
   <SideBar />
   <div class="main" id="main">
-    <TopoDefault />
     <div class="container area-admin">
       <TituloPage nome="Título" />
       <div class="row">
         <div class="col-md-9">
-          <AlertaErros v-if="showErros" :errosLista="erros" scrollToTop='s' />
+          <div class="alert alert-danger alert-dismissible fade" :class="{'show' : showErros, 'd-none' : !showErros }"  role="alert">
+            <ListaErros :lista="erros"  />
+            <button @click="{ showErros = false; }" type="button" class="btn-close" aria-label="Close"></button>
+          </div>
           <PreLoader v-if="showPreloader" />
           <form v-if="!showPreloader" autocomplete="off" @submit.prevent="itemStore.save">
             <CardBase titulo="Formulário">
@@ -135,11 +140,11 @@ const {
                 </div>
               </div>
             </CardBase>
-            <UploadGaleria v-if="itemStore.render" tipo="galeria" :tkn="dataForm.ref" infoTxt="Galeria" />
+            <UploadGaleria v-if="render" tipo="galeria"  :tkn="dataForm.ref" infoTxt="Galeria" />
           </form>
         </div>
         <div class="col-md-3">
-          <UploadUnico v-if="itemStore.render" tipo="destaque" :tkn="dataForm.ref" infoTxt="Imagem destaque" />
+          <UploadUnico v-if="render" tipo="destaque" :tkn="dataForm.ref" infoTxt="Imagem destaque" />
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch
             demo modal</button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch

@@ -1,41 +1,3 @@
-<template>
-  <CardBase titulo="Imagem destaque">
-    <p if="infoTxt" class="card-description">{{ infoTxt }} </p>
-    <div>
-      <div v-show="!showArquivo" class="mb-3 mt-2">
-        <label class="btn btn-primary rounded-0">
-          <input type="file" ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles"
-            hidden />
-          <div class="va-button__content"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</div>
-        </label>
-      </div>
-      <div v-if="errorMessages">
-        <div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show"
-          role="alert">
-          {{ item.texto }}
-          <button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close"
-            @click=removeErrorMsg(item)>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
-      <div class="mb-3" v-if="progressInfos">
-        <div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
-          <span>{{ progressInfo.fileName }}</span>
-          <div class="progress">
-            <div class="progress-bar progress-bar-info" role="progressbar" :aria-valuenow="progressInfo.percentage"
-              aria-valuemin="0" aria-valuemax="100" :style="{ width: progressInfo.percentage + '%' }">
-              {{ progressInfo.percentage }}%
-            </div>
-          </div>
-        </div>
-      </div>
-      <ArquivoUpload v-show="showArquivo" @send-file-to-parent="getFileUpload" :messagez="parentMessage"
-        :fileInfos="fileInfos" />
-    </div>
-  </CardBase>
-
-</template>
 
 <script setup>
 
@@ -61,6 +23,8 @@ const props = defineProps({
   },
 });
 
+alert(props.tkn)
+
 const fileInfos = ref([]);
 const selectedFiles = ref(undefined);
 const progressInfos = ref([]);
@@ -72,6 +36,7 @@ const arquivoNome = ref("");
 const qteImages = ref(0);
 const uploaded = ref(0);
 const fileInput = ref(null);
+const showPreloader = ref(true);
 //const tkn = ref(props.tkn);
 
 const selectFile = (event) => {
@@ -167,15 +132,60 @@ const upload = (idx, file) => {
       selectFile.value = null;
       listArquivos();
       clearFile();
+      
 
     })
 };
 
 onMounted(async() => {
-  await listArquivos();
+  listArquivos();
+  showPreloader.value = false;
 });
 
 </script>
+
+
+<template>
+  
+  <CardBase titulo="Imagem destaque">
+    <p if="infoTxt" class="card-description">{{ infoTxt }} </p>
+    <div>
+      <div v-show="!showArquivo" class="mb-3 mt-2">
+        <label class="btn btn-primary rounded-0">
+          <input type="file" ref="fileInput" @change="selectFile" accept=".jpg, .png, .pdf" :disabled="selectedFiles"
+            hidden />
+          <div class="va-button__content"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</div>
+        </label>
+      </div>
+      <div v-if="errorMessages">
+        <div v-for="(item, i) in errorMessages" :key="i" ref="message" class="alert alert-danger fade show"
+          role="alert">
+          {{ item.texto }}
+          <button type="button" class="btn-upload-close" data-dismiss="alert" aria-label="Close"
+            @click=removeErrorMsg(item)>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="mb-3" v-if="progressInfos">
+        <div class="mb-2" v-for="(progressInfo, index) in progressInfos" :key="index">
+          <span>{{ progressInfo.fileName }}</span>
+          <div class="progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" :aria-valuenow="progressInfo.percentage"
+              aria-valuemin="0" aria-valuemax="100" :style="{ width: progressInfo.percentage + '%' }">
+              {{ progressInfo.percentage }}%
+            </div>
+          </div>
+        </div>
+      </div>
+      <PreLoader v-if="showPreloader" />
+      <ArquivoUpload v-show="showArquivo" @send-file-to-parent="getFileUpload" :messagez="parentMessage"
+        :fileInfos="fileInfos" />
+    </div>
+  </CardBase>
+
+</template>
+
 
 <style scoped>
 .btn-upload {

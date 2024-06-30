@@ -11,9 +11,9 @@ userStore.listar();
 </script>
 
 <template>
+  <TopoDefault />
   <SideBar />
   <div class="main" id="main">
-    <TopoDefault />
     <div class="container area-admin">
       <TituloPage :nome="userStore.tituloPagina" />
       <div class="row">

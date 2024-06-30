@@ -17,6 +17,8 @@
 	const arquivoNome = ref("");
 	const qteImages = ref(0);
 	const uploaded = ref(0);
+  const showPreloader = ref(true);
+
 
 	const props = defineProps({
 		tkn: {
@@ -130,8 +132,10 @@
 	};
 
 	onMounted(() => {
-      listArquivos();
-    });
+    listArquivos();
+    showPreloader.value = false;
+
+  });
 
 </script>
 
@@ -161,6 +165,7 @@
 					<div class="progress-bar" :style="{ width: progressInfo.percentage + '%' }">{{progressInfo.percentage }}%</div>
 				</div>
 			</div>
+      <PreLoader v-if="showPreloader" />
 			<GaleriaUploads @send-file-to-parent="getFileUpload" :messagez="parentMessage" :fileInfos="fileInfos" />
 		</div>
 	</CardBase>

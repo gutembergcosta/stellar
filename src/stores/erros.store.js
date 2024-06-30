@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
 
-import { uniqid } from '@/helpers/uniqid.js';
-
 import { DataModelService } from "@/services/DataModelService";
 import router from "@/router";
 
@@ -9,36 +7,33 @@ const dataModelService = new DataModelService();
 
 const baseUrl = 'item';
 
-export const useItemStore = defineStore({
-  id: 'item',
+export const useErrosStore = defineStore({
+  id: 'erros',
   state: () => ({
-    showPreloader: false,
-    lista: [],
-    erros : [],
+
+    lista : [],
     showErros : false,
-    isSubmitting : false,
-    render : false,
-    picked: null,
-    dataForm : {
-      ref: uniqid(),
-      nome: null,
-      categoria_id: 0,
-      info: null,
-      email: null,
-      texto: '<p>Content of the editor.</p>',
-    },
+
+    
   }),
   actions:{
-    async listar(){
+    async listar(lista){
+      alert('listar')
+      this.lista = lista;
+      /*
       this.showPreloader = true;
       this.lista = await dataModelService.get(baseUrl);
       this.showPreloader = false;
+      */
     },
+
+
+    ////
     async deletar(id){
       if (confirm("Deseja realmente excluir este item!") == true) {
         await dataModelService.delete(`${baseUrl}/${id}`);
         this.listar()
-        alert('Item excluído com sucesso');
+        alert('Erros excluído com sucesso');
       }
     },
     async getById(id) {
@@ -47,12 +42,11 @@ export const useItemStore = defineStore({
           this.showPreloader = true;
           this.dataForm = await dataModelService.get(`${baseUrl}/${id}`);
           this.showPreloader = false;
-          
+          this.render = true;
         } catch (error) {
           alert('erro getById()')
         }
       }
-      this.render = true;
     },
     async save(){
       this.isSubmitting = true;
@@ -64,13 +58,12 @@ export const useItemStore = defineStore({
       console.log(response.status)
     
       if (response.status === 422) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-        this.erros = Object.values(response.data.errors).map(arr => arr[0]);
+        this.erros = response.data.errors;
         this.showErros = true;
       }
       if (response.status === 200 ) {
-        alert('Item salvo com sucesso');
-        router.push({ name: "ItemList" });
+        alert('Erros salvo com sucesso');
+        router.push({ name: "ErrosList" });
       }
       if (response.status === 500 ) {
         alert('Falha ao salvar registro!')
@@ -78,7 +71,7 @@ export const useItemStore = defineStore({
       this.isSubmitting = false;
     },
     novo(){
-      router.push({ name: "ItemAdd" });
+      router.push({ name: "ErrosAdd" });
     }
   },
   

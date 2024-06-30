@@ -43,7 +43,7 @@ const openDropDown = (painel) => {
   <div id="mySidebar" class="sidebar">
 
     <ul class="side-navbar">
-      <li><a class="url-link"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
+      <li><router-link class="url-link" to="/"><span><i class="fa fa-cog"></i>Home</span></router-link></li>
       
       <li><a class="accordion-link url-link" id="link-item01" @click="teste('item01')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
       <div class="painel-navbar sub-navbar item01">
