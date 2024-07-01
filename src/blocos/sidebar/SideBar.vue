@@ -9,7 +9,7 @@ const authStore = useAuthStore();
 const linkBase = ref("");
 
 const teste = (subNav) => {
-  
+
   linkBase.value = 'link-'+subNav;
 
   var targetDivs = document.querySelectorAll('.sub-navbar');

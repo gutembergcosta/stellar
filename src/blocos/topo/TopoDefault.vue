@@ -7,19 +7,22 @@ import TopoSidebar from './TopoSidebar'
 const authStore = useAuthStore();
 
 const avatarImg = ref(require('@/assets/img/user.png'))
+
 </script>
 
 <template>
 <div class="w-100 topo d-flex justify-content-between sombra position-fixed">
+  <CloseSidebar v-if="authStore.isMobile" />
   <TopoSidebar/>
+
   <div class=" lateral d-flex align-items-center justify-content-between" >
-    <div class=""><CloseSidebar/></div>
+    <CloseSidebar v-if="!authStore.isMobile" />
     <div class="avatar-area">
 			<div class="d-flex justify-content-end">
 				<div class="dropdown">
-					<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<button class="btn dropdown-toggle btn-avabar" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<img :src="avatarImg" class="avatar-topo rounded-circle mr-2" />
-						<span class="avatar-usernome">{{ authStore.userNome }}</span>
+						<span v-if="!authStore.isMobile" class="avatar-usernome">{{ authStore.userNome }}</span>
 					</button>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">Action</a></li>
@@ -67,5 +70,10 @@ const avatarImg = ref(require('@/assets/img/user.png'))
     box-shadow: 0px 4px 3px -2px rgba(0, 0, 0, 0.15);
     z-index: 1000;
 
+  }
+  @media screen and (max-width: 900px) {
+    .btn-avatar {
+      padding: 6px 0;
+    }
   }
 </style>

@@ -1,24 +1,27 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth.store';
+const authStore = useAuthStore();
   
-  import {ref} from 'vue';
+import {ref} from 'vue';
 
-  const action = ref("close");
+const action = ref("close");
 
-  const teste = () => {
-    if(action.value == 'close'){closeNav();} else{openNav();}
-  }
 
-  const openNav = () => {
-    document.getElementById("mySidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-    action.value = 'close'
-  }
-  
-  const closeNav = () => {
-    document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    action.value = 'open'
-  }
+const teste = () => {
+  if(action.value == 'close'){closeNav();} else{openNav();}
+}
+
+const openNav = () => {
+  document.getElementById("mySidebar").style.width = "250px";
+  if(!authStore.isMobile) document.getElementById("main").style.marginLeft = "250px";
+  action.value = 'close'
+}
+
+const closeNav = () => {
+  document.getElementById("mySidebar").style.width = "0";
+  if(!authStore.isMobile) document.getElementById("main").style.marginLeft= "0";
+  action.value = 'open'
+}
 
 </script>
 

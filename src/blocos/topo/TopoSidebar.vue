@@ -15,13 +15,29 @@ import { ref } from 'vue'
 <style scoped>
 	.topo{
 		background: white;
-		height: 60px;
-    width: 250px;
-    
 	}
 
   .logo{
-    width: 150px;
+    width: 130px;
     height: fit-content;
+  }
+
+  @media screen and (min-width: 900px) {
+    .topo{
+      height: 60px;
+      width: 250px;
+      
+    }
+  }
+  @media screen and (max-width: 900px) {
+    .topo{
+      height: 50px;
+      width: 200px;
+      
+    }
+    .logo{
+      position: relative;
+      right: 30px;
+    }
   }
 </style>
