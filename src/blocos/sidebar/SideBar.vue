@@ -44,36 +44,10 @@ const openDropDown = (painel) => {
 
     <ul class="side-navbar">
       <li><router-link class="url-link" to="/"><span><i class="fa fa-cog"></i>Home</span></router-link></li>
-      
-      <li><a class="accordion-link url-link" id="link-item01" @click="teste('item01')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
-      <div class="painel-navbar sub-navbar item01">
-        <ul class="sub-nav">
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-        </ul>
-      </div>
-      <li><a class="accordion-link url-link" id="link-item02" @click="teste('item02')"><span><i class="fa fa-cog"></i> Section 1</span></a></li>
-      <div class="painel-navbar sub-navbar item02">
-        <ul class="sub-nav">
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-        </ul>
-      </div>
-      
       <li v-if="authStore.userTipo =='admin'"><a class="accordion-link url-link" id="link-item03" @click="teste('item03')"><span><i class="fa fa-cog"></i>Administrativo</span></a></li>
       <div v-if="authStore.userTipo =='admin'" class="painel-navbar sub-navbar item03">
         <ul class="sub-nav">
-          <li><router-link to="/usuarios/lista">Usuários</router-link></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
-          <li><a>asdfadsf</a></li>
+          <li><router-link to="/usuarios">Usuários</router-link></li>
         </ul>
       </div>
     </ul>
