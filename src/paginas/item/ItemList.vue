@@ -25,7 +25,6 @@ itemStore.listar();
           </div>
           <PreLoader v-if="itemStore.showPreloader" />
           <CardBase v-if="!itemStore.showPreloader" titulo="Lista">
-            
             <table class="table" if="lista.length">
               <thead>
                 <tr>

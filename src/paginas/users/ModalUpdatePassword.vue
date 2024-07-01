@@ -1,21 +1,16 @@
 
 <script setup>
 
-import {defineProps}  from 'vue';
 import { useUserStore } from '@/stores/user.store';
+import { storeToRefs } from "pinia";
 
 const userStore = useUserStore();
 
-const props = defineProps({
-  userId: Number   
-})
+const { 
+  dataForm,
+  isSubmittingSenha,
+} = storeToRefs(userStore);
 
-userStore.getById(props.userId,'edit')
-
-const saveSenha = () => {
-  userStore.dataSenha.userId = props.userId
-  userStore.savePassword();
-}
 
 </script>
 
@@ -40,9 +35,11 @@ const saveSenha = () => {
           </form>
 				</div>
 				<div class="modal-footer">
-					<button id="closeModalPassword" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary" @click="saveSenha" >Salvar nova senha</button>
-				</div>
+					<button id="closeModalPassword" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" @click="userStore.savePassword(dataForm.id)" :disabled="isSubmittingSenha">
+            <TextoBtn texto="Salvar" :submitting="isSubmittingSenha" />
+          </button>
+        </div>
 			</div>
 		</div>
 	</div>

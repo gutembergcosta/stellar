@@ -43,18 +43,13 @@ const routes = [
     name: 'Users',
     children: [
       {
-        path: '/usuarios/lista',
-        component: () => import("@/paginas/users/UserList.vue"),
+        path: '/usuarios',
+        component: () => import("@/paginas/users/UserMain.vue"),
         name: 'UserList',
       },
       {
-        path: '/usuarios/novo',
-        component: () => import("@/paginas/users/UserForm.vue"),
-        name: 'UserAdd',
-      },
-      {
         path: '/usuarios/editar/:id',
-        component: () => import("@/paginas/users/UserForm.vue"),
+        component: () => import("@/paginas/users/UserMain.vue"),
         name: 'UserEdit',
       },
     ]

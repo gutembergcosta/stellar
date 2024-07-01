@@ -65,7 +65,7 @@ const avatarImg = ref(require('@/assets/img/user.png'))
   .sombra{
     border-bottom: 1px solid #eee;
     box-shadow: 0px 4px 3px -2px rgba(0, 0, 0, 0.15);
-    z-index: 9999;
+    z-index: 1000;
 
   }
 </style>

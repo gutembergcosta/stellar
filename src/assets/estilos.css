@@ -188,7 +188,16 @@ form [type=text]:focus, form [type=email]:focus, form [type=url]:focus, form sel
   border: 1px solid #04002b;
 }
 
+.tabela-base a{
+  color: black;
+  cursor: pointer;
 
+}
+
+.tabela-base td > a:hover{
+  color: blue!important;
+
+}
 
 
 @media screen and (min-width: 901px) {

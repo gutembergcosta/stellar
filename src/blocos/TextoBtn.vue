@@ -15,7 +15,7 @@
 <template>
   <span v-if="submitting">
     <img class="filter" :src="require('@/assets/img/loading.svg')" alt="Description">
-    Aguarde
+    Aguarde...
   </span>
   <span v-if="!submitting">
     {{ texto }}
