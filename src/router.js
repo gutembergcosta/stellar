@@ -40,19 +40,8 @@ const routes = [
   },
   {
     path: '/usuarios',
-    name: 'Users',
-    children: [
-      {
-        path: '/usuarios',
-        component: () => import("@/paginas/users/UserMain.vue"),
-        name: 'UserList',
-      },
-      {
-        path: '/usuarios/editar/:id',
-        component: () => import("@/paginas/users/UserMain.vue"),
-        name: 'UserEdit',
-      },
-    ]
+    component: () => import("@/paginas/users/UserMain.vue"),
+    name: 'UserList',
   },
   // Adicione suas rotas aqui
 ];
